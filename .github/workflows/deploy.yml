@@ -12,3 +12,24 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "."
           target: "/var/www/murcia-welcomes-you"
+      - name: Install and configure Caddy (automatic HTTPS)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo apt update
+            sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl gnupg
+            curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-archive-keyring.gpg
+            curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+            sudo apt update
+            sudo apt install -y caddy
+            sudo mkdir -p /var/www/murcia-welcomes-you
+            sudo tee /etc/caddy/Caddyfile > /dev/null <<'CADDY'
+            murciawelcomesyou.com, www.murciawelcomesyou.com {
+              root * /var/www/murcia-welcomes-you
+              file_server
+            }
+            CADDY
+            sudo systemctl restart caddy
