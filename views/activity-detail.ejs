@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="activity-detail"
+        style="background: white; padding: 3rem; border-radius: var(--radius); box-shadow: var(--card-shadow);">
+        <a href="/activities" style="text-decoration: none; color: var(--primary); font-weight: 700;">← Back to
+            Activities</a>
+
+        <div style="margin-top: 2rem;">
+            <span
+                style="background: var(--secondary); color: white; padding: 0.3rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">
+                <%= activity.type %>
+            </span>
+            <h1 style="font-size: 3.5rem; color: var(--secondary); margin-top: 1rem;">
+                <%= activity.title %>
+            </h1>
+
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin: 2rem 0; padding: 2rem; background: var(--background); border-radius: 15px;">
+                <div>
+                    <h4
+                        style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; color: var(--text-light);">
+                        Time</h4>
+                    <p style="font-size: 1.2rem; font-weight: 700;">
+                        <%= activity.time %>
+                    </p>
+                </div>
+                <div>
+                    <h4
+                        style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; color: var(--text-light);">
+                        Location</h4>
+                    <p style="font-size: 1.2rem; font-weight: 700;">
+                        <%= activity.location %>
+                    </p>
+                </div>
+                <div>
+                    <h4
+                        style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; color: var(--text-light);">
+                        Scheduled Days</h4>
+                    <p style="font-size: 1.2rem; font-weight: 700;">Jan <%= activity.days.join(', ') %></p>
+                </div>
+            </div>
+
+            <div style="font-size: 1.2rem; color: var(--text-light); max-width: 800px;">
+                <h3>About this activity</h3>
+                <p><%= activity.description %></p>
+            </div>
+
+            <div style="margin-top: 3rem;">
+                <a href="/calendar" class="btn">Add to Calendar</a>
+            </div>
+        </div>
+    </div>
+</div>

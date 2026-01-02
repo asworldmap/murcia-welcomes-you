@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> | Murcia Welcomes You
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- SEO -->
+    <meta name="description"
+        content="Murcia Welcomes You - Global mentality, local accent. Join our January Reset 2026 program for expats and newcomers in Murcia.">
+    <meta name="keywords" content="Murcia, Expats, Community, January Reset 2026, Activities Murcia">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+</head>
+
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo-wrapper">
+                <img src="/images/logo.png" alt="MWY Logo" class="logo-img">
+                <div class="logo-text">MWY<span>2026</span></div>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/" class="<%= title === 'Home' ? 'active' : '' %>">Home</a></li>
+                    <li><a href="/calendar" class="<%= title.includes('Calendar') ? 'active' : '' %>">Calendar</a></li>
+                    <li><a href="/activities" class="<%= title === 'All Activities' ? 'active' : '' %>">Activities</a>
+                    </li>
+                    <li><a href="/about" class="<%= title === 'Our Story' ? 'active' : '' %>">Our Story</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="/calendar" class="btn" style="padding: 0.6rem 1.2rem; font-size: 0.8rem;">Join Now</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <%- body %>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <div class="footer-logo">
+                    <img src="/images/logo.png" alt="MWY Logo">
+                    <span style="font-weight: 800; font-size: 1.2rem; letter-spacing: -1px;">MWY</span>
+                </div>
+                <p style="color: rgba(255,255,255,0.6); max-width: 250px; font-size: 0.9rem;">
+                    Global mentality, local accent. Building the most vibrant expat community in the heart of Murcia.
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>Program</h4>
+                <ul>
+                    <li><a href="/calendar">January Reset 2026</a></li>
+                    <li><a href="/activities">Browse Activities</a></li>
+                    <li><a href="/activities/paella-murciana-night">Special Events</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="/about">Our Story</a></li>
+                    <li><a href="/about#team">Team</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/legal">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="legal">
+            <p>&copy; 2026 Murcia Welcomes You. All rights reserved.</p>
+            <p>Made with ❤️ in Murcia</p>
+        </div>
+    </footer>
+</body>
+
+</html>

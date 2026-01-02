@@ -1,0 +1,37 @@
+<div class="container">
+    <h1 style="color: var(--secondary); margin-bottom: 2rem;">All Program Activities</h1>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
+        <% activities.forEach(activity=> { %>
+            <div class="activity-card">
+                <div class="card-content">
+                    <span
+                        style="background: var(--primary); color: white; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700;">
+                        <%= activity.type %>
+                    </span>
+                    <h3 class="card-title" style="margin-top: 1rem;">
+                        <%= activity.title %>
+                    </h3>
+                    <div class="card-meta">
+                        <span>🕒 <%= activity.time %></span>
+                        <span>📍 <%= activity.location %></span>
+                    </div>
+                    <p>
+                        <%= activity.description %>
+                    </p>
+                    <div style="margin-top: 1.5rem;">
+                        <strong>Days:</strong>
+                        <% activity.days.forEach(d=> { %>
+                            <span
+                                style="display: inline-block; background: #eee; padding: 0.1rem 0.5rem; border-radius: 5px; margin-right: 2px;">
+                                <%= d %>
+                            </span>
+                            <% }) %>
+                    </div>
+                    <a href="/activities/<%= activity.slug %>" class="btn"
+                        style="width: 100%; text-align: center; margin-top: 1.5rem;">View Details</a>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<div class="container">
+    <section class="hero">
+        <span
+            style="color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 1rem; display: block;">January
+            Reset 2026</span>
+        <h1>Global mentality, local accent in Murcia.</h1>
+        <p>A community-driven program designed to help you settle, connect, and enjoy everything the heart of Murcia has
+            to offer.</p>
+        <div class="hero-actions" style="display: flex; gap: 1rem; justify-content: center;">
+            <a href="/calendar" class="btn">Explore Calendar</a>
+            <a href="/about" class="btn btn-secondary">Learn Our Story</a>
+        </div>
+    </section>
+
+    <div style="margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+            <h2 style="font-size: 2.5rem; color: var(--primary); letter-spacing: -1px;">Highlighted for you</h2>
+            <p style="color: var(--text-light);">Start your journey with these hand-picked events.</p>
+        </div>
+        <a href="/activities" style="color: var(--primary); font-weight: 700; text-decoration: none;">View all
+            activities →</a>
+    </div>
+
+    <div class="grid">
+        <% featuredActivities.forEach(activity=> { %>
+            <div class="card">
+                <div class="card-tag">
+                    <%= activity.type %>
+                </div>
+                <h3 class="card-title">
+                    <%= activity.title %>
+                </h3>
+                <div class="card-info">
+                    <span>🕒 <%= activity.time %></span>
+                    <span>📍 <%= activity.location %></span>
+                </div>
+                <p style="color: var(--text-light); font-size: 0.95rem; margin-bottom: 1.5rem;">
+                    <%= activity.description %>
+                </p>
+                <div class="card-footer">
+                    <a href="/activities/<%= activity.slug %>" class="btn btn-secondary" style="width: 100%;">View
+                        Details</a>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+
+    <section
+        style="margin-top: 8rem; background: var(--primary); border-radius: var(--radius); padding: 4rem; color: white; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+        <div>
+            <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem; color: white;">More than just activities.</h2>
+            <p style="opacity: 0.9; margin-bottom: 2rem; font-size: 1.1rem;">We believe in the power of local
+                connection. "Murcia Welcomes You" is the bridge between your international background and the warm,
+                traditional heart of this Mediterranean paradise.</p>
+            <a href="/about" class="btn" style="background: var(--highlight); color: var(--primary);">Discover Our
+                History</a>
+        </div>
+        <div
+            style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 20px; backdrop-filter: blur(10px);">
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="margin-bottom: 0.5rem; color: var(--highlight);">1,000+ Expats</h4>
+                <p style="font-size: 0.9rem; opacity: 0.8;">Integrated into the Murcian lifestyle through our programs.
+                </p>
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="margin-bottom: 0.5rem; color: var(--highlight);">50+ Weekly Sessions</h4>
+                <p style="font-size: 0.9rem; opacity: 0.8;">From sports to gastronomy and cultural exchange.</p>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 0.5rem; color: var(--highlight);">100% Local</h4>
+                <p style="font-size: 0.9rem; opacity: 0.8;">We work directly with local venues and organizations.</p>
+            </div>
+        </div>
+    </section>
+</div>

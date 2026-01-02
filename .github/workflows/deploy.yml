@@ -1,34 +1,33 @@
-name: Deploy
+name: Deploy DataSpider
 on: [push]
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: appleboy/scp-action@master
+      - name: Copy files via SCP
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "."
-          target: "/var/www/murcia-welcomes-you"
-      - name: Install and configure Caddy (automatic HTTPS)
+          target: "/var/www/dataspider"
+      - name: Configure Caddy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            sudo apt update
-            sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl gnupg
-            curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-archive-keyring.gpg
-            curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
-            sudo apt update
-            sudo apt install -y caddy
-            sudo mkdir -p /var/www/murcia-welcomes-you
+            sudo mkdir -p /var/www/dataspider
             sudo tee /etc/caddy/Caddyfile > /dev/null <<'CADDY'
             murciawelcomesyou.com, www.murciawelcomesyou.com {
               root * /var/www/murcia-welcomes-you
+              file_server
+            }
+            dataspider.asensios.com {
+              root * /var/www/dataspider
               file_server
             }
             CADDY

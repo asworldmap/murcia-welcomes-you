@@ -1,0 +1,28 @@
+{
+  "name": "murcia-welcomes-you",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asworldmap/murcia-welcomes-you.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/asworldmap/murcia-welcomes-you/issues"
+  },
+  "homepage": "https://github.com/asworldmap/murcia-welcomes-you#readme",
+  "dependencies": {
+    "compression": "^1.8.1",
+    "ejs": "^3.1.10",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0"
+  }
+}

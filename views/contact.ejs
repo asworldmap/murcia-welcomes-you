@@ -1,0 +1,36 @@
+<div class="container" style="max-width: 600px;">
+    <h1 style="color: var(--primary); margin-bottom: 1rem; text-align: center;">Get in Touch</h1>
+    <p style="text-align: center; color: var(--text-light); margin-bottom: 3rem;">Have questions about the January
+        Reset? We're here to help.</p>
+
+    <div style="background: white; padding: 3rem; border-radius: var(--radius); box-shadow: var(--card-shadow);">
+        <form action="/contact" method="POST">
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Full Name</label>
+                <input type="text" name="name" required
+                    style="width: 100%; padding: 0.8rem; border-radius: 12px; border: 1px solid #ddd; font-family: inherit;">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email Address</label>
+                <input type="email" name="email" required
+                    style="width: 100%; padding: 0.8rem; border-radius: 12px; border: 1px solid #ddd; font-family: inherit;">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">How can we help?</label>
+                <select name="subject"
+                    style="width: 100%; padding: 0.8rem; border-radius: 12px; border: 1px solid #ddd; font-family: inherit;">
+                    <option>General Inquiry</option>
+                    <option>Activity Registration</option>
+                    <option>Volunteer Opportunities</option>
+                    <option>Partnerships</option>
+                </select>
+            </div>
+            <div style="margin-bottom: 2rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Message</label>
+                <textarea name="message" rows="5" required
+                    style="width: 100%; padding: 0.8rem; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; resize: vertical;"></textarea>
+            </div>
+            <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+        </form>
+    </div>
+</div>

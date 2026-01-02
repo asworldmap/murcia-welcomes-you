@@ -1,0 +1,150 @@
+[
+    {
+        "id": 1,
+        "title": "Board Games Night",
+        "slug": "board-games-night",
+        "time": "19:00",
+        "location": "Stranger Games",
+        "description": "Join us for a fun evening of board games and making new friends.",
+        "days": [
+            5,
+            12,
+            19,
+            26
+        ],
+        "type": "Social"
+    },
+    {
+        "id": 2,
+        "title": "Techn Club",
+        "slug": "techn-club",
+        "time": "19:00",
+        "location": "Stranger Games",
+        "description": "Discuss the latest trends in technology and collaborate on projects.",
+        "days": [
+            6,
+            13,
+            20,
+            27
+        ],
+        "type": "Interest"
+    },
+    {
+        "id": 3,
+        "title": "Arts & Craft",
+        "slug": "arts-crafts",
+        "time": "19:00",
+        "location": "Murcia Río Parque",
+        "description": "Unleash your creativity in the beautiful setting of Murcia Río.",
+        "days": [
+            7,
+            14,
+            28
+        ],
+        "type": "Creative"
+    },
+    {
+        "id": 4,
+        "title": "Paella Murciana Night",
+        "slug": "paella-murciana-night",
+        "time": "20:00",
+        "location": "TBD",
+        "description": "A special night dedicated to the famous Paella Murciana. Don't miss it!",
+        "days": [
+            21
+        ],
+        "type": "Special"
+    },
+    {
+        "id": 5,
+        "title": "HIIT Training",
+        "slug": "hiit-training",
+        "time": "19:00",
+        "location": "Parque de Calistenia Abenarabi",
+        "description": "Get your heart racing with a high-intensity interval training session.",
+        "days": [
+            8,
+            15,
+            22,
+            29
+        ],
+        "type": "Sport"
+    },
+    {
+        "id": 6,
+        "title": "Line Dance",
+        "slug": "line-dance",
+        "time": "19:00",
+        "location": "Parque de Abenarabi",
+        "description": "Learn the steps and enjoy some energetic line dancing.",
+        "days": [
+            9,
+            16,
+            23,
+            30
+        ],
+        "type": "Dance"
+    },
+    {
+        "id": 7,
+        "title": "Hike Cresta del Gallo",
+        "slug": "hike-cresta-del-gallo",
+        "time": "10:00",
+        "location": "Cresta del Gallo",
+        "description": "A scenic hike to one of Murcia's most iconic lookout points.",
+        "days": [
+            10
+        ],
+        "type": "Hiking"
+    },
+    {
+        "id": 8,
+        "title": "Hike La Fuensanta",
+        "slug": "hike-la-fuensanta",
+        "time": "10:00",
+        "location": "La Fuensanta",
+        "description": "Enjoy a beautiful walk up to the Santuario de la Fuensanta.",
+        "days": [
+            17
+        ],
+        "type": "Hiking"
+    },
+    {
+        "id": 9,
+        "title": "Hike Monteagudo",
+        "slug": "hike-monteagudo",
+        "time": "10:00",
+        "location": "Monteagudo",
+        "description": "Explore the history and views of the Monteagudo castle and statue.",
+        "days": [
+            24
+        ],
+        "type": "Hiking"
+    },
+    {
+        "id": 10,
+        "title": "Nature Scenic Walk",
+        "slug": "nature-scenic-walk",
+        "time": "10:00",
+        "location": "Various Locations",
+        "description": "A relaxed walk through nature to enjoy the fresh January air.",
+        "days": [
+            31
+        ],
+        "type": "Hiking"
+    },
+    {
+        "id": 11,
+        "title": "Community Picnic",
+        "slug": "community-picnic",
+        "time": "12:00",
+        "location": "Parque de la Seda",
+        "description": "Bring some food to share and enjoy a Sunday afternoon in the park.",
+        "days": [
+            11,
+            18,
+            25
+        ],
+        "type": "Social"
+    }
+]
