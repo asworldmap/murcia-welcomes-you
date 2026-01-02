@@ -1,139 +1,82 @@
 <div class="container" style="padding-top: 100px;">
     <div style="text-align: center; margin-bottom: 60px;">
-        <h1 class="animate-title" style="font-size: 3.5rem; color: var(--primary);">Join the Family</h1>
-        <p class="animate-subtitle" style="font-size: 1.2rem; max-width: 600px; margin: 0 auto;">Everything you need to
-            reset and enjoy January in Murcia.</p>
+        <h1 class="animate-title" style="font-size: 3.5rem; color: var(--primary);">
+            <%= t('join_family') %>
+        </h1>
+        <p class="animate-subtitle" style="font-size: 1.2rem; max-width: 700px; margin: 20px auto; line-height: 1.8;">
+            Activities are open and accessible.<br>
+            You decide the value at the end.<br>
+            <strong>Like a Free Tour, but for community.</strong>
+        </p>
     </div>
 
-    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-        <% plans.forEach(plan=> { %>
-            <div class="pricing-card <%= plan.popular ? 'popular' : '' %> animate-card" style="margin: 0;">
-                <% if (plan.popular) { %>
-                    <div class="popular-badge">Most Loved</div>
-                    <% } %>
-                        <h2 style="color: var(--naif-orange);">
-                            <%= plan.name %>
-                        </h2>
-                        <div class="price">
-                            <%= plan.price %>€
-                        </div>
-                        <ul style="list-style: none; margin: 30px 0; padding: 0; text-align: left;">
-                            <% plan.features.forEach(feature=> { %>
-                                <li style="margin-bottom: 12px;">✨ <%= feature %>
-                                </li>
-                                <% }) %>
-                        </ul>
-
-                        <button onclick="payWithStripe('<%= plan.id %>')" class="btn stripe-btn"
-                            style="width: 100%; margin-bottom: 15px;">Pay with Card</button>
-                        <div id="paypal-button-container-<%= plan.id %>" class="paypal-btn-container"></div>
+    <!-- Simple How It Works -->
+    <div
+        style="background: var(--naif-mint); padding: 50px; border-radius: 40px; margin-bottom: 60px; text-align: center;">
+        <h3 style="margin-bottom: 30px;">How it works</h3>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+            <div>
+                <div style="font-size: 3rem; margin-bottom: 15px;">📅</div>
+                <h4>1. Pick an activity</h4>
+                <p style="font-size: 0.95rem; opacity: 0.8;">Browse the calendar and reserve your spot</p>
             </div>
-            <% }) %>
+            <div>
+                <div style="font-size: 3rem; margin-bottom: 15px;">🤝</div>
+                <h4>2. Show up & connect</h4>
+                <p style="font-size: 0.95rem; opacity: 0.8;">Meet the community and enjoy the experience</p>
+            </div>
+            <div>
+                <div style="font-size: 3rem; margin-bottom: 15px;">💛</div>
+                <h4>3. Contribute by will</h4>
+                <p style="font-size: 0.95rem; opacity: 0.8;">Pay what feels right at the end</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div style="max-width: 800px; margin: 0 auto;">
+        <h2 style="text-align: center; margin-bottom: 40px;">Quick Questions</h2>
+
+        <div class="card" style="margin-bottom: 20px; padding: 30px;">
+            <h4 style="color: var(--primary); margin-bottom: 10px;">Do I need to pay upfront?</h4>
+            <p>No. All activities are free to join. At the end, you contribute what you think is fair.</p>
+        </div>
+
+        <div class="card" style="margin-bottom: 20px; padding: 30px;">
+            <h4 style="color: var(--primary); margin-bottom: 10px;">Can I come alone?</h4>
+            <p>Absolutely! Most people come solo. That's the whole point—making new friends.</p>
+        </div>
+
+        <div class="card" style="margin-bottom: 20px; padding: 30px;">
+            <h4 style="color: var(--primary); margin-bottom: 10px;">What if I can't make it?</h4>
+            <p>Just let us know via WhatsApp. No penalties, no stress.</p>
+        </div>
+
+        <div class="card" style="margin-bottom: 20px; padding: 30px;">
+            <h4 style="color: var(--primary); margin-bottom: 10px;">How do I stay updated?</h4>
+            <p>Join our WhatsApp group or follow us on Instagram for announcements and last-minute plans.</p>
+        </div>
+    </div>
+
+    <!-- Social CTAs -->
+    <div
+        style="text-align: center; margin-top: 60px; padding: 50px; background: var(--naif-yellow); border-radius: 40px;">
+        <h3 style="margin-bottom: 30px;">Stay Connected</h3>
+        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+            <a href="https://wa.me/YOUR_WHATSAPP_NUMBER" target="_blank" class="btn"
+                style="background: #25D366; display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.5rem;">💬</span> WhatsApp Group
+            </a>
+            <a href="https://instagram.com/murciawelcomesyou" target="_blank" class="btn"
+                style="background: #E4405F; display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.5rem;">📸</span> Instagram
+            </a>
+        </div>
     </div>
 </div>
-
-<!-- Dynamic Widget: Live Member Counter -->
-<div class="live-widget animate-widget">
-    <span class="pulse"></span>
-    <span id="member-count">47</span> members joined today!
-</div>
-
-<style>
-    .pricing-card.popular {
-        border-color: var(--naif-pink);
-        transform: scale(1.05);
-    }
-
-    .popular-badge {
-        background: var(--naif-pink);
-        color: white;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        position: absolute;
-        top: -15px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .live-widget {
-        position: fixed;
-        bottom: 30px;
-        left: 30px;
-        background: white;
-        padding: 15px 25px;
-        border-radius: 50px;
-        box-shadow: var(--shadow);
-        z-index: 100;
-        border: 2px solid var(--naif-mint);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 700;
-    }
-
-    .pulse {
-        width: 10px;
-        height: 10px;
-        background: #4CAF50;
-        border-radius: 50%;
-        display: inline-block;
-        animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-        0% {
-            box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
-        }
-
-        70% {
-            box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
-        }
-
-        100% {
-            box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
-        }
-    }
-</style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR"></script>
 <script>
-    // GSAP Animations
-    gsap.from(".animate-title", { opacity: 0, y: -50, duration: 1, ease: "back" });
-    gsap.from(".animate-subtitle", { opacity: 0, y: -20, delay: 0.3, duration: 1 });
-    gsap.from(".animate-card", { opacity: 0, scale: 0.8, stagger: 0.2, delay: 0.5, duration: 0.8, ease: "power2.out" });
-    gsap.from(".animate-widget", { x: -100, opacity: 0, delay: 1.5, duration: 1, ease: "power4.out" });
-
-    // Live counter effect
-    setInterval(() => {
-        const count = document.getElementById('member-count');
-        if (Math.random() > 0.7) {
-            let current = parseInt(count.innerText);
-            count.innerText = current + 1;
-            gsap.from(count, { scale: 1.5, color: "#9b5de5", duration: 0.5 });
-        }
-    }, 5000);
-
-    function payWithStripe(planId) {
-        fetch('/create-checkout-session', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ planId })
-        })
-            .then(res => res.json())
-            .then(data => { if (data.url) window.location.href = data.url; })
-            .catch(err => console.error('Stripe Error:', err));
-    }
-
-    // PayPal Buttons for each plan
-    <% plans.forEach(plan => { %>
-        paypal.Buttons({
-            createOrder: (data, actions) => actions.order.create({
-                purchase_units: [{ amount: { value: '<%= plan.price %>.00' } }]
-            }),
-            onApprove: (data, actions) => actions.order.capture().then(() => window.location.href = '/success')
-        }).render('#paypal-button-container-<%= plan.id %>');
-    <% }) %>
+    gsap.from(".animate-title", { opacity: 0, y: -30, duration: 1, ease: "power2.out" });
+    gsap.from(".animate-subtitle", { opacity: 0, y: -20, delay: 0.2, duration: 1 });
 </script>
