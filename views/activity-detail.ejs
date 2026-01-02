@@ -54,6 +54,12 @@
                         <input type="text" name="name" required placeholder="Juana de Arco">
                     </div>
                     <div class="form-group">
+                        <label>Email (for confirmation)</label>
+                        <input type="email" name="email" required placeholder="juana@example.com">
+                        <p style="font-size: 0.85rem; margin-top: 5px; opacity: 0.7;">Your email is only used for
+                            confirmation.</p>
+                    </div>
+                    <div class="form-group">
                         <label>Choose your mood (Avatar)</label>
                         <select name="avatar" style="font-size: 1.5rem; padding: 5px;">
                             <option value="😊">😊 Happy</option>
@@ -63,6 +69,8 @@
                             <option value="🧠">🧠 Techie</option>
                             <option value="👟">👟 Sporty</option>
                         </select>
+                        <p style="font-size: 0.85rem; margin-top: 5px; opacity: 0.7;">Your avatar helps others recognize
+                            you.</p>
                     </div>
                     <button type="submit" class="btn" style="width: 100%;">
                         <%= t('rsvp_btn') %>
