@@ -21,6 +21,7 @@
   "homepage": "https://github.com/asworldmap/murcia-welcomes-you#readme",
   "dependencies": {
     "compression": "^1.8.1",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.2.1",

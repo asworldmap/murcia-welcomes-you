@@ -1,7 +1,7 @@
 <div class="container" style="padding-top: 100px;">
-    <div class="card" style="max-width: 900px; margin: 0 auto; padding: 50px;">
-        <a href="/calendar" style="text-decoration: none; color: var(--primary); font-weight: 700;">← Back to
-            Calendar</a>
+    <div class="card" style="max-width: 900px; margin: 0 auto; padding: 50px; position: relative; overflow: hidden;">
+        <a href="/calendar" style="text-decoration: none; color: var(--primary); font-weight: 700;">← <%=
+                t('nav_calendar') %></a>
 
         <div
             style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 30px;">
@@ -13,33 +13,70 @@
                     <%= activity.description %>
                 </p>
 
-                <div style="background: var(--naif-mint); padding: 20px; border-radius: 20px; margin-bottom: 20px;">
-                    <h4 style="margin-bottom: 10px;">🎒 What to bring:</h4>
-                    <ul style="padding-left: 20px;">
-                        <li>Comfy shoes</li>
-                        <li>Water bottle</li>
-                        <li>Positive vibes</li>
-                    </ul>
-                </div>
-
-                <p><strong>🕒 Time:</strong>
+                <p><strong>🕒 <%= t('nav_calendar') %>:</strong>
                     <%= activity.time %>
                 </p>
                 <p><strong>📍 Location:</strong>
                     <%= activity.location %>
                 </p>
-            </div>
 
-            <div>
-                <div
-                    style="width: 100%; height: 300px; background: #e0e0e0; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: #888;">
-                    [ Google Maps Placeholder: <%= activity.location %> ]
+                <!-- Who's Coming Section -->
+                <div style="margin-top: 40px;">
+                    <h3>
+                        <%= t('rsvp_title') %> (<%= participants.length %>)
+                    </h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
+                        <% if (participants.length===0) { %>
+                            <p style="font-style: italic; opacity: 0.6;">Be the first to join!</p>
+                            <% } else { %>
+                                <% participants.forEach(p=> { %>
+                                    <div class="avatar-badge" title="<%= p.name %>"
+                                        style="width: 45px; height: 45px; background: var(--naif-yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-left: -10px;">
+                                        <%= p.avatar %>
+                                    </div>
+                                    <% }) %>
+                                        <% } %>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div style="margin-top: 40px; text-align: center;">
-            <a href="/membership" class="btn">Get Pass to Join</a>
+            <div id="rsvp-section"
+                style="background: var(--naif-mint); padding: 30px; border-radius: 30px; border: 2px dashed var(--primary);">
+                <h3 style="margin-bottom: 20px; text-align: center;">
+                    <%= t('rsvp_btn') %>
+                </h3>
+                <form action="/rsvp" method="POST">
+                    <input type="hidden" name="activitySlug" value="<%= activity.slug %>">
+                    <div class="form-group">
+                        <label>
+                            <%= t('rsvp_placeholder') %>
+                        </label>
+                        <input type="text" name="name" required placeholder="Juana de Arco">
+                    </div>
+                    <div class="form-group">
+                        <label>Choose your mood (Avatar)</label>
+                        <select name="avatar" style="font-size: 1.5rem; padding: 5px;">
+                            <option value="😊">😊 Happy</option>
+                            <option value="😎">😎 Cool</option>
+                            <option value="🍕">🍕 Foodie</option>
+                            <option value="💃">💃 Ready to Dance</option>
+                            <option value="🧠">🧠 Techie</option>
+                            <option value="👟">👟 Sporty</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">
+                        <%= t('rsvp_btn') %>
+                    </button>
+                </form>
+                <p style="font-size: 0.8rem; margin-top: 15px; text-align: center; opacity: 0.7;">Reserving helps us
+                    with logistics! No payment required for this reservation.</p>
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+    .avatar-badge:first-child {
+        margin-left: 0;
+    }
+</style>

@@ -9,6 +9,11 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_test_place
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Data Loading
+const activitiesData = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'activities.january-2026.json'), 'utf8'));
+const translations = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'translations.json'), 'utf8'));
+let rsvps = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'rsvps.json'), 'utf8'));
+
 // Middleware
 app.use(helmet({
     contentSecurityPolicy: {
@@ -23,6 +28,11 @@ app.use(helmet({
         },
     },
 }));
+
+// Cookie Parser for language preference (simple way)
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
@@ -32,8 +42,14 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Data
-const activitiesData = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'activities.january-2026.json'), 'utf8'));
+// Translation helper middleware
+app.use((req, res, next) => {
+    const lang = req.query.lang || req.cookies.lang || 'en';
+    res.cookie('lang', lang);
+    res.locals.lang = lang;
+    res.locals.t = (key) => translations[lang][key] || key;
+    next();
+});
 
 // Custom Middleware for layout
 app.use((req, res, next) => {
@@ -53,15 +69,39 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     const featuredActivities = activitiesData.slice(0, 3);
     res.renderWithLayout('index', {
-        title: 'Home',
+        title: res.locals.t('nav_home'),
         featuredActivities
     });
 });
 
 app.get('/calendar', (req, res) => {
     res.renderWithLayout('calendar', {
-        title: 'January 2026 Calendar',
-        activities: activitiesData
+        title: res.locals.t('nav_calendar'),
+        activities: activitiesData,
+        rsvps
+    });
+});
+
+app.post('/rsvp', (req, res) => {
+    const { name, activitySlug, avatar } = req.body;
+    if (!rsvps[activitySlug]) rsvps[activitySlug] = [];
+
+    // Check if member already RSVP'd (simple check)
+    if (!rsvps[activitySlug].find(r => r.name === name)) {
+        rsvps[activitySlug].push({ name, avatar: avatar || '😊' });
+        fs.writeFileSync(path.join(__dirname, 'data', 'rsvps.json'), JSON.stringify(rsvps, null, 2));
+    }
+    res.redirect(`/activities/${activitySlug}`);
+});
+
+app.get('/activities/:slug', (req, res) => {
+    const activity = activitiesData.find(a => a.slug === req.params.slug);
+    if (!activity) return res.status(404).send('Activity not found');
+
+    res.renderWithLayout('activity-detail', {
+        title: activity.title,
+        activity,
+        participants: rsvps[req.params.slug] || []
     });
 });
 
