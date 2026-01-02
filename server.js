@@ -3,6 +3,8 @@ const path = require('path');
 const fs = require('fs');
 const compression = require('compression');
 const helmet = require('helmet');
+require('dotenv').config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,7 +14,7 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-            "script-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://www.paypal.com", "https://js.stripe.com"],
+            "script-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://www.paypal.com", "https://js.stripe.com", "https://cdnjs.cloudflare.com"],
             "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
             "font-src": ["'self'", "https://fonts.gstatic.com", "https://fonts.googleapis.com"],
             "img-src": ["'self'", "data:", "https://*"],
@@ -63,36 +65,43 @@ app.get('/calendar', (req, res) => {
     });
 });
 
-app.get('/activities', (req, res) => {
-    res.renderWithLayout('activities', {
-        title: 'All Activities',
-        activities: activitiesData
-    });
-});
-
-app.get('/activities/:slug', (req, res) => {
-    const activity = activitiesData.find(a => a.slug === req.params.slug);
-    if (!activity) return res.status(404).send('Activity not found');
-
-    res.renderWithLayout('activity-detail', {
-        title: activity.title,
-        activity
-    });
-});
-
-app.get('/about', (req, res) => {
-    res.renderWithLayout('about', { title: 'Our Story' });
-});
-
 app.get('/membership', (req, res) => {
-    res.renderWithLayout('membership', { title: 'Join the Community' });
+    const plans = [
+        { id: 'single', name: 'Explorer Pass', price: 9, features: ['1 Special Event Access', 'Community Chat Access', 'Digital Guide'] },
+        { id: 'full', name: 'January Reset Pass', price: 29, features: ['All 20+ Events', 'Welcome Drink', 'Exclusive Tote Bag', 'VIP Support'], popular: true },
+        { id: 'annual', name: 'Legacy Member', price: 199, features: ['Whole Year 2026 Access', 'Partner Discounts', 'Monthly Private Dinners', 'MWY Jacket'] }
+    ];
+    res.renderWithLayout('membership', { title: 'Join the Community', plans });
 });
 
-app.post('/create-checkout-session', (req, res) => {
-    // Placeholder for Stripe Checkout Session
-    console.log('Creating Stripe Checkout Session...');
-    // Real implementation would use stripe.checkout.sessions.create
-    res.json({ url: '/success' });
+app.post('/create-checkout-session', async (req, res) => {
+    const { planId } = req.body;
+    let price = 2900; // default 29.00
+    let planName = 'January Reset Pass';
+
+    if (planId === 'single') { price = 900; planName = 'Explorer Pass'; }
+    if (planId === 'annual') { price = 19900; planName = 'Legacy Member'; }
+
+    try {
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: [{
+                price_data: {
+                    currency: 'eur',
+                    product_data: { name: planName },
+                    unit_amount: price,
+                },
+                quantity: 1,
+            }],
+            mode: 'payment',
+            success_url: `${req.protocol}://${req.get('host')}/success`,
+            cancel_url: `${req.protocol}://${req.get('host')}/membership`,
+        });
+        res.json({ id: session.id, url: session.url });
+    } catch (error) {
+        console.error('Stripe Error:', error);
+        res.status(500).json({ error: error.message });
+    }
 });
 
 app.get('/success', (req, res) => {
