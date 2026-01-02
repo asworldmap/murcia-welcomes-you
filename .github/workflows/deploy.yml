@@ -12,19 +12,18 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "."
-          target: "/var/www/dataspider"
-      - name: Configure Caddy
+          target: "/var/www/murcia-welcomes-you"
+      - name: Configure Caddy and Restart App
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            sudo mkdir -p /var/www/dataspider
+            sudo mkdir -p /var/www/murcia-welcomes-you
             sudo tee /etc/caddy/Caddyfile > /dev/null <<'CADDY'
             murciawelcomesyou.com, www.murciawelcomesyou.com {
-              root * /var/www/murcia-welcomes-you
-              file_server
+              reverse_proxy localhost:3000
             }
             dataspider.asensios.com {
               root * /var/www/dataspider
@@ -32,3 +31,6 @@ jobs:
             }
             CADDY
             sudo systemctl restart caddy
+            cd /var/www/murcia-welcomes-you
+            npm install
+            pm2 restart mwy-2026 || pm2 start server.js --name mwy-2026
