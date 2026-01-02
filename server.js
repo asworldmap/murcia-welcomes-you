@@ -44,20 +44,40 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Translation helper middleware
 app.use((req, res, next) => {
-    const lang = req.query.lang || req.cookies.lang || 'en';
-    res.cookie('lang', lang);
-    res.locals.lang = lang;
-    res.locals.t = (key) => translations[lang][key] || key;
-    next();
+    try {
+        const lang = req.query.lang || req.cookies.lang || 'en';
+        res.cookie('lang', lang);
+        res.locals.lang = lang;
+        res.locals.t = (key) => {
+            const group = translations[lang] || translations['en'];
+            return group[key] || key;
+        };
+        next();
+    } catch (e) {
+        console.error("Translation middleware error:", e);
+        res.locals.lang = 'en';
+        res.locals.t = (key) => key;
+        next();
+    }
 });
 
 // Custom Middleware for layout
 app.use((req, res, next) => {
-    res.renderWithLayout = (view, data) => {
-        res.render(view, { ...data }, (err, html) => {
-            if (err) return next(err);
+    res.renderWithLayout = (view, data = {}) => {
+        // Explicitly include t and lang from res.locals
+        const finalData = {
+            t: res.locals.t,
+            lang: res.locals.lang,
+            ...data
+        };
+
+        res.render(view, finalData, (err, html) => {
+            if (err) {
+                console.error(`Error rendering inner view ${view}:`, err);
+                return res.status(500).send(err.message);
+            }
             res.render('layout', {
-                ...data,
+                ...finalData,
                 body: html
             });
         });
