@@ -12,10 +12,12 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-            "script-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+            "script-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://www.paypal.com", "https://js.stripe.com"],
             "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
             "font-src": ["'self'", "https://fonts.gstatic.com", "https://fonts.googleapis.com"],
             "img-src": ["'self'", "data:", "https://*"],
+            "frame-src": ["'self'", "https://www.paypal.com", "https://js.stripe.com"],
+            "connect-src": ["'self'", "https://www.paypal.com", "https://api.stripe.com"],
         },
     },
 }));
@@ -82,16 +84,19 @@ app.get('/about', (req, res) => {
     res.renderWithLayout('about', { title: 'Our Story' });
 });
 
-app.get('/privacy', (req, res) => {
-    res.renderWithLayout('privacy', { title: 'Privacy Policy' });
+app.get('/membership', (req, res) => {
+    res.renderWithLayout('membership', { title: 'Join the Community' });
 });
 
-app.get('/legal', (req, res) => {
-    res.renderWithLayout('legal', { title: 'Legal Notice' });
+app.post('/create-checkout-session', (req, res) => {
+    // Placeholder for Stripe Checkout Session
+    console.log('Creating Stripe Checkout Session...');
+    // Real implementation would use stripe.checkout.sessions.create
+    res.json({ url: '/success' });
 });
 
-app.get('/terms', (req, res) => {
-    res.renderWithLayout('legal', { title: 'Terms of Service' });
+app.get('/success', (req, res) => {
+    res.renderWithLayout('success', { title: 'Payment Successful' });
 });
 
 app.get('/contact', (req, res) => {
@@ -99,10 +104,17 @@ app.get('/contact', (req, res) => {
 });
 
 app.post('/contact', (req, res) => {
-    const { name, email, subject, message } = req.body;
-    console.log(`Contact Form Submission: ${name} (${email}) - ${subject}`);
-    // Here you would typically send an email
-    res.send('<script>alert("Thank you! We have received your message."); window.location.href="/";</script>');
+    const { name, email, message } = req.body;
+    console.log(`Contact Submission: ${name} (${email}) - ${message}`);
+    res.renderWithLayout('thanks', { title: 'Thank You', name });
+});
+
+app.get('/privacy', (req, res) => {
+    res.renderWithLayout('privacy', { title: 'Privacy Policy' });
+});
+
+app.get('/legal', (req, res) => {
+    res.renderWithLayout('legal', { title: 'Legal Notice' });
 });
 
 // Start Server

@@ -7,16 +7,16 @@
     <title>
         <%= title %> | Murcia Welcomes You
     </title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@400;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
 
-    <!-- SEO -->
-    <meta name="description"
-        content="Murcia Welcomes You - Global mentality, local accent. Join our January Reset 2026 program for expats and newcomers in Murcia.">
-    <meta name="keywords" content="Murcia, Expats, Community, January Reset 2026, Activities Murcia">
+    <!-- WhatsApp / Social Metatags -->
+    <meta property="og:title" content="Murcia Welcomes You - January Reset 2026">
+    <meta property="og:description"
+        content="Global mentality, local accent. Join our community activities and enjoy Murcia like never before.">
+    <meta property="og:image" content="https://murciawelcomesyou.com/images/logo.png">
+    <meta property="og:url" content="https://murciawelcomesyou.com">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" type="image/png" href="/images/logo.png">
 </head>
 
@@ -31,14 +31,12 @@
                 <ul>
                     <li><a href="/" class="<%= title === 'Home' ? 'active' : '' %>">Home</a></li>
                     <li><a href="/calendar" class="<%= title.includes('Calendar') ? 'active' : '' %>">Calendar</a></li>
-                    <li><a href="/activities" class="<%= title === 'All Activities' ? 'active' : '' %>">Activities</a>
+                    <li><a href="/membership" class="<%= title === 'Join the Community' ? 'active' : '' %>">Join</a>
                     </li>
-                    <li><a href="/about" class="<%= title === 'Our Story' ? 'active' : '' %>">Our Story</a></li>
+                    <li><a href="/about" class="<%= title === 'Our Story' ? 'active' : '' %>">Story</a></li>
+                    <li><a href="/contact" class="<%= title === 'Contact Us' ? 'active' : '' %>">Contact</a></li>
                 </ul>
             </nav>
-            <div class="header-actions">
-                <a href="/calendar" class="btn" style="padding: 0.6rem 1.2rem; font-size: 0.8rem;">Join Now</a>
-            </div>
         </div>
     </header>
 
@@ -47,44 +45,28 @@
     </main>
 
     <footer>
-        <div class="footer-content">
-            <div class="footer-info">
-                <div class="footer-logo">
-                    <img src="/images/logo.png" alt="MWY Logo">
-                    <span style="font-weight: 800; font-size: 1.2rem; letter-spacing: -1px;">MWY</span>
-                </div>
-                <p style="color: rgba(255,255,255,0.6); max-width: 250px; font-size: 0.9rem;">
-                    Global mentality, local accent. Building the most vibrant expat community in the heart of Murcia.
-                </p>
+        <div class="container"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: left;">
+            <div>
+                <h3 style="margin-bottom: 15px;">Murcia Welcomes You</h3>
+                <p style="font-size: 0.9rem; opacity: 0.8;">Making Murcia feel like home since 2024. Join us for a month
+                    of discovery and connection.</p>
             </div>
-            <div class="footer-links">
-                <h4>Program</h4>
-                <ul>
-                    <li><a href="/calendar">January Reset 2026</a></li>
-                    <li><a href="/activities">Browse Activities</a></li>
-                    <li><a href="/activities/paella-murciana-night">Special Events</a></li>
+            <div>
+                <h4 style="margin-bottom: 15px;">Quick Links</h4>
+                <ul style="list-style: none;">
+                    <li><a href="/calendar" style="text-decoration: none; color: inherit;">Calendar</a></li>
+                    <li><a href="/membership" style="text-decoration: none; color: inherit;">Membership</a></li>
+                    <li><a href="/activities" style="text-decoration: none; color: inherit;">Activities</a></li>
                 </ul>
             </div>
-            <div class="footer-links">
-                <h4>Community</h4>
-                <ul>
-                    <li><a href="/about">Our Story</a></li>
-                    <li><a href="/about#team">Team</a></li>
-                    <li><a href="/contact">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-links">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="/privacy">Privacy Policy</a></li>
-                    <li><a href="/terms">Terms of Service</a></li>
-                    <li><a href="/legal">Legal Notice</a></li>
-                </ul>
+            <div>
+                <h3 style="font-size: 2rem;">🍋</h3>
+                <p style="font-weight: 700;">Global mentality, local accent.</p>
             </div>
         </div>
-        <div class="legal">
-            <p>&copy; 2026 Murcia Welcomes You. All rights reserved.</p>
-            <p>Made with ❤️ in Murcia</p>
+        <div style="margin-top: 40px; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 20px; font-size: 0.8rem;">
+            &copy; 2026 Murcia Welcomes You. Built with love in Spain.
         </div>
     </footer>
 </body>

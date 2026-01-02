@@ -1,52 +1,45 @@
-<div class="container">
-    <div class="activity-detail"
-        style="background: white; padding: 3rem; border-radius: var(--radius); box-shadow: var(--card-shadow);">
-        <a href="/activities" style="text-decoration: none; color: var(--primary); font-weight: 700;">← Back to
-            Activities</a>
+<div class="container" style="padding-top: 100px;">
+    <div class="card" style="max-width: 900px; margin: 0 auto; padding: 50px;">
+        <a href="/calendar" style="text-decoration: none; color: var(--primary); font-weight: 700;">← Back to
+            Calendar</a>
 
-        <div style="margin-top: 2rem;">
-            <span
-                style="background: var(--secondary); color: white; padding: 0.3rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">
-                <%= activity.type %>
-            </span>
-            <h1 style="font-size: 3.5rem; color: var(--secondary); margin-top: 1rem;">
-                <%= activity.title %>
-            </h1>
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 30px;">
+            <div>
+                <h1 style="color: var(--primary); margin-bottom: 20px;">
+                    <%= activity.title %>
+                </h1>
+                <p style="font-size: 1.1rem; color: var(--text-light); margin-bottom: 30px;">
+                    <%= activity.description %>
+                </p>
 
-            <div
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin: 2rem 0; padding: 2rem; background: var(--background); border-radius: 15px;">
-                <div>
-                    <h4
-                        style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; color: var(--text-light);">
-                        Time</h4>
-                    <p style="font-size: 1.2rem; font-weight: 700;">
-                        <%= activity.time %>
-                    </p>
+                <div style="background: var(--naif-mint); padding: 20px; border-radius: 20px; margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 10px;">🎒 What to bring:</h4>
+                    <ul style="padding-left: 20px;">
+                        <li>Comfy shoes</li>
+                        <li>Water bottle</li>
+                        <li>Positive vibes</li>
+                    </ul>
                 </div>
-                <div>
-                    <h4
-                        style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; color: var(--text-light);">
-                        Location</h4>
-                    <p style="font-size: 1.2rem; font-weight: 700;">
-                        <%= activity.location %>
-                    </p>
-                </div>
-                <div>
-                    <h4
-                        style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; color: var(--text-light);">
-                        Scheduled Days</h4>
-                    <p style="font-size: 1.2rem; font-weight: 700;">Jan <%= activity.days.join(', ') %></p>
-                </div>
+
+                <p><strong>🕒 Time:</strong>
+                    <%= activity.time %>
+                </p>
+                <p><strong>📍 Location:</strong>
+                    <%= activity.location %>
+                </p>
             </div>
 
-            <div style="font-size: 1.2rem; color: var(--text-light); max-width: 800px;">
-                <h3>About this activity</h3>
-                <p><%= activity.description %></p>
+            <div>
+                <div
+                    style="width: 100%; height: 300px; background: #e0e0e0; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: #888;">
+                    [ Google Maps Placeholder: <%= activity.location %> ]
+                </div>
             </div>
+        </div>
 
-            <div style="margin-top: 3rem;">
-                <a href="/calendar" class="btn">Add to Calendar</a>
-            </div>
+        <div style="margin-top: 40px; text-align: center;">
+            <a href="/membership" class="btn">Get Pass to Join</a>
         </div>
     </div>
 </div>
