@@ -8,9 +8,38 @@
         <%= title %> | Murcia Welcomes You
     </title>
 
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Join Murcia Welcomes You for social activities, hiking, sports, and cultural events in Murcia, Spain. Connect with expats and locals. Free to join, pay as you go.">
+    <meta name="keywords"
+        content="Murcia activities, expat Murcia, things to do Murcia, social events Murcia, hiking Murcia, community Murcia, international Murcia">
+    <meta name="author" content="Asensio Sabater López-Guillén">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://murciawelcomesyou.com">
+
     <meta property="og:title" content="Murcia Welcomes You - January Reset 2026">
     <meta property="og:description" content="<%= t('hero_subtitle') %>">
     <meta property="og:image" content="https://murciawelcomesyou.com/images/logo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://murciawelcomesyou.com">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Murcia Welcomes You",
+        "description": "Community activities for expats and locals in Murcia",
+        "url": "https://murciawelcomesyou.com",
+        "foundingDate": "2023",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Murcia",
+            "addressCountry": "ES"
+        }
+    }
+    </script>
 
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" type="image/png" href="/images/logo.png">
