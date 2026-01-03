@@ -12,7 +12,8 @@
             19,
             26
         ],
-        "type": "Social"
+        "type": "Social",
+        "image": "/images/activity_boardgames.png"
     },
     {
         "id": 2,
@@ -27,7 +28,8 @@
             20,
             27
         ],
-        "type": "Interest"
+        "type": "Interest",
+        "image": "/images/activity_tech.png"
     },
     {
         "id": 3,
@@ -41,7 +43,8 @@
             14,
             28
         ],
-        "type": "Creative"
+        "type": "Creative",
+        "image": "/images/activity_arts.png"
     },
     {
         "id": 4,
@@ -53,7 +56,8 @@
         "days": [
             21
         ],
-        "type": "Special"
+        "type": "Special",
+        "image": "/images/activity_paella.png"
     },
     {
         "id": 5,
@@ -68,7 +72,8 @@
             22,
             29
         ],
-        "type": "Sport"
+        "type": "Sport",
+        "image": "/images/activity_fitness.png"
     },
     {
         "id": 6,
@@ -83,7 +88,8 @@
             23,
             30
         ],
-        "type": "Dance"
+        "type": "Dance",
+        "image": "/images/activity_dance.png"
     },
     {
         "id": 7,
@@ -95,7 +101,8 @@
         "days": [
             10
         ],
-        "type": "Hiking"
+        "type": "Hiking",
+        "image": "/images/activity_mountain.png"
     },
     {
         "id": 8,
@@ -107,7 +114,8 @@
         "days": [
             17
         ],
-        "type": "Hiking"
+        "type": "Hiking",
+        "image": "/images/activity_mountain.png"
     },
     {
         "id": 9,
@@ -119,7 +127,8 @@
         "days": [
             24
         ],
-        "type": "Hiking"
+        "type": "Hiking",
+        "image": "/images/activity_mountain.png"
     },
     {
         "id": 10,
@@ -145,6 +154,7 @@
             18,
             25
         ],
-        "type": "Social"
+        "type": "Social",
+        "image": "/images/activity_boardgames.png"
     }
 ]

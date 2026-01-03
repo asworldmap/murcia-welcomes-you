@@ -153,7 +153,13 @@ app.post('/rsvp', async (req, res) => {
         }
     }
 
-    res.redirect(`/activities/${activitySlug}`);
+});
+
+app.get('/activities', (req, res) => {
+    res.renderWithLayout('activities', {
+        title: 'All Activities',
+        activities: activitiesData
+    });
 });
 
 app.get('/activities/:slug', (req, res) => {
@@ -165,6 +171,10 @@ app.get('/activities/:slug', (req, res) => {
         activity,
         participants: rsvps[req.params.slug] || []
     });
+});
+
+app.get('/about', (req, res) => {
+    res.renderWithLayout('about', { title: res.locals.t('nav_story') });
 });
 
 app.get('/membership', (req, res) => {

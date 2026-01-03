@@ -1,0 +1,3 @@
+murciawelcomesyou.com, www.murciawelcomesyou.com {
+    reverse_proxy localhost:3000
+}

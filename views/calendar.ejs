@@ -1,34 +1,98 @@
-<div class="container">
-    <div style="text-align: center; margin-bottom: 3rem;">
-        <h1 style="color: var(--secondary); font-size: 3rem;">January 2026</h1>
-        <p style="color: var(--text-light);">Our program officially begins on January 5th.</p>
+<div class="container" style="padding-top: 100px;">
+    <div style="text-align: center; margin-bottom: 60px;">
+        <h1 class="animate-title" style="font-size: 3.5rem; color: var(--primary);">January 2026 Calendar</h1>
+        <p class="animate-subtitle" style="font-size: 1.2rem;">Your month of connection, adventure & belonging in
+            Murcia.</p>
     </div>
 
-    <div class="calendar-grid">
-        <div class="calendar-header">Mon</div>
-        <div class="calendar-header">Tue</div>
-        <div class="calendar-header">Wed</div>
-        <div class="calendar-header">Thu</div>
-        <div class="calendar-header">Fri</div>
-        <div class="calendar-header">Sat</div>
-        <div class="calendar-header">Sun</div>
+    <!-- Visual Calendar Grid -->
+    <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 15px; margin-bottom: 60px;">
+        <!-- Day Headers -->
+        <% ['Mon', 'Tue' , 'Wed' , 'Thu' , 'Fri' , 'Sat' , 'Sun' ].forEach(day=> { %>
+            <div style="text-align: center; font-weight: 700; color: var(--primary); padding: 10px;">
+                <%= day %>
+            </div>
+            <% }) %>
 
-        <% for(let i=0; i < 3; i++) { %>
-            <div class="calendar-day muted"></div>
-            <% } %>
+                <!-- Empty cells for days before January 1st (Wednesday) -->
+                <div></div>
+                <div></div>
 
-                <% for(let day=1; day <=31; day++) { const isMuted=(day < 5); const
-                    dayActivities=activities.filter(function(a) { return a.days.includes(day); }); %>
-                    <div class="calendar-day <%= isMuted ? 'muted' : '' %>">
-                        <div class="day-number">
-                            <%= day %>
+                <!-- Calendar Days -->
+                <% for (let day=1; day <=31; day++) { %>
+                    <% const dayActivities=activities.filter(a=> a.days && a.days.includes(day));
+                        const hasActivity = dayActivities.length > 0;
+                        const firstActivity = dayActivities[0];
+                        %>
+                        <div class="calendar-day <%= hasActivity ? 'has-activity' : '' %>" style="background: <%= hasActivity ? 'var(--naif-yellow)' : 'white' %>; 
+                        border: 2px solid <%= hasActivity ? 'var(--naif-orange)' : 'var(--naif-mint)' %>; 
+                        border-radius: 20px; 
+                        padding: 15px; 
+                        min-height: 120px; 
+                        position: relative;
+                        cursor: <%= hasActivity ? 'pointer' : 'default' %>;
+                        transition: var(--transition);">
+                            <div
+                                style="font-weight: 700; font-size: 1.2rem; color: var(--primary); margin-bottom: 10px;">
+                                <%= day %>
+                            </div>
+
+                            <% if (hasActivity) { %>
+                                <% dayActivities.forEach(activity=> { %>
+                                    <a href="/activities/<%= activity.slug %>"
+                                        style="text-decoration: none; color: inherit;">
+                                        <div
+                                            style="background: white; padding: 8px; border-radius: 12px; margin-bottom: 8px; font-size: 0.75rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                            <% if (activity.image) { %>
+                                                <img src="<%= activity.image %>" alt="<%= activity.title %>"
+                                                    style="width: 100%; height: 50px; object-fit: cover; border-radius: 8px; margin-bottom: 5px;">
+                                                <% } %>
+                                                    <div style="font-weight: 600; color: var(--primary);">
+                                                        <%= activity.title %>
+                                                    </div>
+                                                    <div style="font-size: 0.7rem; color: var(--text-light);">
+                                                        <%= activity.time %>
+                                                    </div>
+                                                    <% if (rsvps[activity.slug] && rsvps[activity.slug].length> 0) { %>
+                                                        <div
+                                                            style="margin-top: 5px; font-size: 0.7rem; color: var(--naif-purple);">
+                                                            👥 <%= rsvps[activity.slug].length %> going
+                                                        </div>
+                                                        <% } %>
+                                        </div>
+                                    </a>
+                                    <% }) %>
+                                        <% } %>
                         </div>
-                        <% dayActivities.forEach(function(activity) { %>
-                            <a href="/activities/<%= activity.slug %>" class="activity-tag">
-                                <%= activity.time %> - <%= activity.title %>
-                            </a>
-                            <% }) %>
-                    </div>
-                    <% } %>
+                        <% } %>
+    </div>
+
+    <!-- Quick Legend -->
+    <div style="background: var(--naif-mint); padding: 30px; border-radius: 30px; text-align: center;">
+        <h3 style="margin-bottom: 20px;">Activity Types</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+            <div>🎲 Social</div>
+            <div>💪 Sport</div>
+            <div>🥾 Hiking</div>
+            <div>💃 Dance</div>
+            <div>🎨 Creative</div>
+            <div>🧠 Tech</div>
+            <div>⭐ Special Events</div>
+        </div>
+        <a href="/activities" class="btn" style="margin-top: 30px; display: inline-block;">View All Activities</a>
     </div>
 </div>
+
+<style>
+    .calendar-day.has-activity:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+    gsap.from(".animate-title", { opacity: 0, y: -30, duration: 1 });
+    gsap.from(".animate-subtitle", { opacity: 0, y: -20, delay: 0.2, duration: 1 });
+    gsap.from(".calendar-day", { opacity: 0, scale: 0.8, stagger: 0.02, delay: 0.4, duration: 0.6 });
+</script>
