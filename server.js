@@ -24,9 +24,10 @@ app.use(helmet({
             "script-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://www.paypal.com", "https://js.stripe.com", "https://cdnjs.cloudflare.com"],
             "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
             "font-src": ["'self'", "https://fonts.gstatic.com", "https://fonts.googleapis.com"],
-            "img-src": ["'self'", "data:", "https://*"],
+            "img-src": ["'self'", "data:", "https://*", "http://*"],
             "frame-src": ["'self'", "https://www.paypal.com", "https://js.stripe.com"],
             "connect-src": ["'self'", "https://www.paypal.com", "https://api.stripe.com"],
+            "upgrade-insecure-requests": null
         },
     },
 }));
