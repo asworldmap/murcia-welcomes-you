@@ -121,8 +121,10 @@ app.post('/rsvp', async (req, res) => {
 
         try {
             await resend.emails.send({
-                from: 'Murcia Welcomes You <hi@murciawelcomesyou.com>',
+                from: 'Murcia Welcomes You <noreply@murciawelcomesyou.com>',
                 to: email,
+                bcc: 'asensios@activemarmenor.eu', // Admin receives copy of all confirmations
+                replyTo: 'asensios@activemarmenor.eu',
                 subject: `You're in! ${activity.title} confirmed`,
                 html: `
                     <div style="font-family: 'Quicksand', sans-serif; max-width: 600px; margin: 0 auto; padding: 40px; background: #fef9f3; border-radius: 20px;">

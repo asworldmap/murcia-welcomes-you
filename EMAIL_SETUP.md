@@ -24,6 +24,9 @@
 2. Click "Add Domain"
 3. Enter: `murciawelcomesyou.com`
 4. Follow instructions to add DNS records (they'll show you exactly what to add)
+5. **Important**: You can send from `noreply@murciawelcomesyou.com` once verified
+
+**Note**: All RSVP confirmations are automatically BCC'd to `asensios@activemarmenor.eu` so you receive a copy of every registration.
 
 ### Step 4: Add API Key to Server
 SSH into your server and create `.env` file:
