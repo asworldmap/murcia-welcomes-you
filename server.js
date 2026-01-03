@@ -5,6 +5,8 @@ const compression = require('compression');
 const helmet = require('helmet');
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder');
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -102,15 +104,55 @@ app.get('/calendar', (req, res) => {
     });
 });
 
-app.post('/rsvp', (req, res) => {
-    const { name, activitySlug, avatar } = req.body;
+app.post('/rsvp', async (req, res) => {
+    const { name, email, activitySlug, avatar } = req.body;
+
     if (!rsvps[activitySlug]) rsvps[activitySlug] = [];
 
-    // Check if member already RSVP'd (simple check)
-    if (!rsvps[activitySlug].find(r => r.name === name)) {
-        rsvps[activitySlug].push({ name, avatar: avatar || '😊' });
+    // Check if member already RSVP'd (simple check by email)
+    const existingRSVP = rsvps[activitySlug].find(r => r.email === email);
+
+    if (!existingRSVP) {
+        rsvps[activitySlug].push({ name, email, avatar: avatar || '😊' });
         fs.writeFileSync(path.join(__dirname, 'data', 'rsvps.json'), JSON.stringify(rsvps, null, 2));
+
+        // Send confirmation email
+        const activity = activitiesData.find(a => a.slug === activitySlug);
+
+        try {
+            await resend.emails.send({
+                from: 'Murcia Welcomes You <hi@murciawelcomesyou.com>',
+                to: email,
+                subject: `You're in! ${activity.title} confirmed`,
+                html: `
+                    <div style="font-family: 'Quicksand', sans-serif; max-width: 600px; margin: 0 auto; padding: 40px; background: #fef9f3; border-radius: 20px;">
+                        <h1 style="color: #9b5de5; font-size: 2rem;">Hey ${name}! 🍋</h1>
+                        <p style="font-size: 1.1rem; line-height: 1.8;">You're all set for <strong>${activity.title}</strong>!</p>
+                        
+                        <div style="background: white; padding: 30px; border-radius: 15px; margin: 30px 0;">
+                            <p><strong>📅 When:</strong> ${activity.time}</p>
+                            <p><strong>📍 Where:</strong> ${activity.location}</p>
+                            <p><strong>🎭 Your vibe:</strong> ${avatar}</p>
+                        </div>
+                        
+                        <p style="font-size: 1rem; line-height: 1.6;">
+                            We'll send you a reminder the day before. If plans change, just reply to this email.
+                        </p>
+                        
+                        <p style="margin-top: 30px; font-size: 0.95rem; color: #666;">
+                            See you there!<br>
+                            <strong>Asensio, Camilo & Ángel</strong><br>
+                            Murcia Welcomes You
+                        </p>
+                    </div>
+                `
+            });
+        } catch (error) {
+            console.error('Email send error:', error);
+            // Continue even if email fails - don't block the RSVP
+        }
     }
+
     res.redirect(`/activities/${activitySlug}`);
 });
 
