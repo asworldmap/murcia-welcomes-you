@@ -52,7 +52,15 @@
                 <img src="/images/logo.png" alt="MWY Logo" class="logo-img">
                 <div class="logo-text">MWY<span>2026</span></div>
             </a>
-            <nav>
+
+            <!-- Hamburger Menu Button -->
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav id="nav-menu">
                 <ul>
                     <li><a href="/?lang=<%= lang %>" class="<%= title === t('nav_home') ? 'active' : '' %>">
                             <%= t('nav_home') %>
@@ -69,13 +77,40 @@
                             <%= t('nav_story') %>
                         </a></li>
                 </ul>
-                <div class="lang-switcher" style="padding: 0 15px;">
+                <div class="lang-switcher">
                     <a href="?lang=en" style="font-weight: <%= lang === 'en' ? '700' : '400' %>">EN</a> |
                     <a href="?lang=es" style="font-weight: <%= lang === 'es' ? '700' : '400' %>">ES</a>
                 </div>
             </nav>
         </div>
     </header>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // Close menu when clicking a link
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
 
     <main>
         <%- body %>

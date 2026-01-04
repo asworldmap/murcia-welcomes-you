@@ -1,0 +1,7 @@
+murciawelcomesyou.com, www.murciawelcomesyou.com { 
+  reverse_proxy localhost:3000 
+} 
+dataspider.asensios.com { 
+  root * /var/www/dataspider 
+  file_server 
+} 
