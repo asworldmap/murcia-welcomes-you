@@ -9,7 +9,7 @@ const { Resend } = require('resend');
 const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002;
 
 // Data Loading - New Structure
 const activities = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'activities.json'), 'utf8'));
