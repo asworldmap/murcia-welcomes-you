@@ -1,6 +1,7 @@
 {
     "en": {
         "nav_home": "Home",
+        "nav_activities": "Activities",
         "nav_calendar": "Calendar",
         "nav_membership": "Membership",
         "nav_story": "Our Story",
@@ -22,6 +23,7 @@
     },
     "es": {
         "nav_home": "Inicio",
+        "nav_activities": "Actividades",
         "nav_calendar": "Calendario",
         "nav_membership": "Membresía",
         "nav_story": "Nuestra Historia",

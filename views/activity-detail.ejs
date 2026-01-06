@@ -1,104 +1,136 @@
-<div class="container" style="padding-top: 100px;">
-    <div class="card" style="max-width: 900px; margin: 0 auto; padding: 50px; position: relative; overflow: hidden;">
-        <a href="/calendar" style="text-decoration: none; color: var(--primary); font-weight: 700;">← <%=
-                t('nav_calendar') %></a>
+<div class="container" style="padding-top: var(--space-6);">
+    <a href="/activities"
+        style="display: inline-flex; align-items: center; gap: var(--space-2); font-weight: 700; color: var(--primary); margin-bottom: var(--space-5);">
+        ← All Activities
+    </a>
 
-        <div
-            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 30px;">
-            <div>
-                <h1 style="color: var(--primary); margin-bottom: 20px;">
-                    <%= activity.title %>
-                </h1>
-                <p style="font-size: 1.1rem; color: var(--text-light); margin-bottom: 30px;">
-                    <%= activity.description %>
-                </p>
+    <div class="product-hero">
+        <div class="product-visual"
+            style="background: var(--primary-light); aspect-ratio: 1; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 8rem;">
+            <%= activity.emoji %>
+        </div>
 
-                <p><strong>🕒 <%= t('nav_calendar') %>:</strong>
-                    <%= activity.time %>
-                </p>
-                <p><strong>📍 Location:</strong>
-                    <%= activity.location %>
-                </p>
+        <div class="product-info">
+            <div class="product-meta">
+                <span class="badge badge-primary">
+                    <%= activity.category %>
+                </span>
+                <% if (activity.recurrence==='weekly' ) { %>
+                    <span class="badge badge-success">Weekly Event</span>
+                    <% } %>
+            </div>
 
-                <!-- Who's Coming Section -->
-                <div style="margin-top: 40px;">
-                    <h3>
-                        <%= t('rsvp_title') %> (<%= participants.length %>)
-                    </h3>
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
-                        <% if (participants.length===0) { %>
-                            <p style="font-style: italic; opacity: 0.6;">Be the first to join!</p>
-                            <% } else { %>
-                                <% participants.forEach(p=> { %>
-                                    <div class="avatar-badge" title="<%= p.name %>"
-                                        style="width: 45px; height: 45px; background: var(--naif-yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-left: -10px;">
-                                        <%= p.avatar %>
-                                    </div>
-                                    <% }) %>
-                                        <% } %>
+            <h1>
+                <%= activity.name %>
+            </h1>
+            <p style="font-size: 1.25rem; color: var(--primary); font-weight: 700; margin-bottom: var(--space-4);">
+                <%= activity.tagline %>
+            </p>
+
+            <p style="color: var(--text-soft); font-size: 1.1rem; line-height: 1.6; margin-bottom: var(--space-5);">
+                <%= activity.description %>
+            </p>
+
+            <div class="product-price-box">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h4 style="margin-bottom: var(--space-1);">FreeTour Model</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-soft);">Contribution based on experience</p>
                     </div>
+                    <span style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">€0*</span>
                 </div>
             </div>
 
-            <div id="rsvp-section"
-                style="background: var(--naif-mint); padding: 30px; border-radius: 30px; border: 2px dashed var(--primary);">
-                <h3 style="margin-bottom: 20px; text-align: center;">
-                    <%= t('rsvp_btn') %>
-                </h3>
-                <form action="/rsvp" method="POST">
-                    <input type="hidden" name="activitySlug" value="<%= activity.slug %>">
-                    <div class="form-group">
-                        <label>
-                            <%= t('rsvp_placeholder') %>
-                        </label>
-                        <input type="text" name="name" required placeholder="Juana de Arco">
-                    </div>
-                    <div class="form-group">
-                        <label>Email (for confirmation)</label>
-                        <input type="email" name="email" required placeholder="juana@example.com">
-                        <p style="font-size: 0.85rem; margin-top: 5px; opacity: 0.7;">Your email is only used for
-                            confirmation.</p>
-                    </div>
-                    <div class="form-group">
-                        <label>Choose your mood (Avatar)</label>
-                        <select name="avatar" style="font-size: 1.5rem; padding: 5px;">
-                            <option value="😊">😊 Happy</option>
-                            <option value="😎">😎 Cool</option>
-                            <option value="🤗">🤗 Friendly</option>
-                            <option value="🥳">🥳 Party</option>
-                            <option value="🍕">🍕 Foodie</option>
-                            <option value="🍷">🍷 Wine Lover</option>
-                            <option value="☕">☕ Coffee Person</option>
-                            <option value="💃">💃 Ready to Dance</option>
-                            <option value="🕺">🕺 Dancer</option>
-                            <option value="🧠">🧠 Techie</option>
-                            <option value="📚">📚 Bookworm</option>
-                            <option value="🎨">🎨 Creative</option>
-                            <option value="🎮">🎮 Gamer</option>
-                            <option value="👟">👟 Sporty</option>
-                            <option value="🚴">🚴 Cyclist</option>
-                            <option value="🧘">🧘 Zen</option>
-                            <option value="🌻">🌻 Nature Lover</option>
-                            <option value="🎸">🎸 Music Fan</option>
-                            <option value="📷">📷 Photographer</option>
-                            <option value="✈️">✈️ Traveler</option>
-                        </select>
-                        <p style="font-size: 0.85rem; margin-top: 5px; opacity: 0.7;">Your avatar helps others recognize
-                            you.</p>
-                    </div>
-                    <button type="submit" class="btn" style="width: 100%;">
-                        <%= t('rsvp_btn') %>
-                    </button>
-                </form>
-                <p style="font-size: 0.8rem; margin-top: 15px; text-align: center; opacity: 0.7;">Reserving helps us
-                    with logistics! No payment required for this reservation.</p>
+            <div style="display: flex; gap: var(--space-3);">
+                <% if (sessions.length> 0) { %>
+                    <a href="#sessions" class="btn" style="flex: 1;">Join Next Session</a>
+                    <% } else { %>
+                        <button class="btn" disabled style="flex: 1; opacity: 0.5;">No sessions scheduled</button>
+                        <% } %>
             </div>
         </div>
     </div>
-</div>
 
-<style>
-    .avatar-badge:first-child {
-        margin-left: 0;
-    }
-</style>
+    <div class="product-content">
+        <div class="content-main">
+            <section style="margin-bottom: var(--space-6);">
+                <h3 style="margin-bottom: var(--space-4);">Details</h3>
+                <div style="display: grid; gap: var(--space-4);">
+                    <div style="display: flex; gap: var(--space-3);">
+                        <div style="font-size: 1.5rem;">🕒</div>
+                        <div>
+                            <h4 style="font-size: 1rem;">Schedule</h4>
+                            <p style="color: var(--text-soft); font-size: 0.95rem;">
+                                <%= activity.schedule %>
+                            </p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: var(--space-3);">
+                        <div style="font-size: 1.5rem;">👤</div>
+                        <div>
+                            <h4 style="font-size: 1rem;">Who is it for</h4>
+                            <p style="color: var(--text-soft); font-size: 0.95rem;">
+                                <%= activity.who_for %>
+                            </p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: var(--space-3);">
+                        <div style="font-size: 1.5rem;">🎒</div>
+                        <div>
+                            <h4 style="font-size: 1rem;">What to bring</h4>
+                            <p style="color: var(--text-soft); font-size: 0.95rem;">
+                                <%= activity.what_to_bring %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sessions" style="margin-bottom: var(--space-6);">
+                <h3 style="margin-bottom: var(--space-4);">Upcoming Sessions</h3>
+                <div style="display: grid; gap: var(--space-3);">
+                    <% sessions.forEach(session=> { %>
+                        <div class="card"
+                            style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-3) var(--space-4);">
+                            <div>
+                                <h4 style="font-size: 1rem;">
+                                    <%= session.date %>
+                                </h4>
+                                <p style="font-size: 0.85rem; color: var(--text-soft);">
+                                    <%= session.time %>
+                                </p>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: var(--space-4);">
+                                <% const count=rsvps[session.id] ? rsvps[session.id].length : 0; %>
+                                    <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">
+                                        <%= count %>
+                                            <%= count===1 ? 'person' : 'people' %> going
+                                    </span>
+                                    <a href="/event/<%= session.id %>" class="btn btn-soft"
+                                        style="padding: var(--space-2) var(--space-4);">Register →</a>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% if (sessions.length===0) { %>
+                                <p style="color: var(--text-muted); font-style: italic;">We are planning the next dates.
+                                    Stay tuned!</p>
+                                <% } %>
+                </div>
+            </section>
+        </div>
+
+        <aside class="content-sidebar">
+            <div class="card" style="position: sticky; top: 120px; background: var(--bg-soft); border: none;">
+                <h4 style="margin-bottom: var(--space-3);">The FreeTour Model</h4>
+                <p style="font-size: 0.9rem; color: var(--text-soft); line-height: 1.6; margin-bottom: var(--space-3);">
+                    There is no fixed price. Participants contribute voluntarily at the end of the activity based on
+                    their experience.
+                </p>
+                <div style="border-top: 1px solid var(--border-soft); padding-top: var(--space-3);">
+                    <p style="font-size: 0.75rem; color: var(--text-muted);">* Registration is mandatory for
+                        organization.</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>

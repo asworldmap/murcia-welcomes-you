@@ -1,98 +1,188 @@
-<div class="container" style="padding-top: 100px;">
-    <div style="text-align: center; margin-bottom: 60px;">
-        <h1 class="animate-title" style="font-size: 3.5rem; color: var(--primary);">January 2026 Calendar</h1>
-        <p class="animate-subtitle" style="font-size: 1.2rem;">Your month of connection, adventure & belonging in
-            Murcia.</p>
+<div class="container" style="padding-top: var(--space-6);">
+    <div style="text-align: center; margin-bottom: var(--space-8);">
+        <h1 style="font-size: 3.5rem; margin-bottom: var(--space-2);">Calendar</h1>
+        <p style="color: var(--text-soft); font-size: 1.1rem;">Join the vibe. Discover upcoming activities in Murcia.
+        </p>
     </div>
 
-    <!-- Visual Calendar Grid -->
-    <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 15px; margin-bottom: 60px;">
-        <!-- Day Headers -->
-        <% ['Mon', 'Tue' , 'Wed' , 'Thu' , 'Fri' , 'Sat' , 'Sun' ].forEach(day=> { %>
-            <div style="text-align: center; font-weight: 700; color: var(--primary); padding: 10px;">
+    <!-- This Week Quick Links -->
+    <div style="margin-bottom: var(--space-8);">
+        <h3 style="margin-bottom: var(--space-4);">Happening Soon</h3>
+        <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+            <% const now=new Date(); const soon=events.filter(e=> new Date(e.date) >= now).slice(0, 3);
+                %>
+                <% soon.forEach(event=> { %>
+                    <a href="/event/<%= event.id %>" class="card"
+                        style="display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-4);">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <span style="font-size: 2rem;">
+                                <%= event.emoji %>
+                            </span>
+                            <span class="badge badge-primary">
+                                <%= event.category %>
+                            </span>
+                        </div>
+                        <div>
+                            <h4 style="font-size: 1.1rem;">
+                                <%= event.name %>
+                            </h4>
+                            <p style="font-size: 0.9rem; color: var(--text-soft);">
+                                <%= event.date %> @ <%= event.time %>
+                            </p>
+                        </div>
+                        <div
+                            style="display: flex; align-items: center; gap: var(--space-2); font-size: 0.85rem; font-weight: 700; color: var(--primary);">
+                            View Details →
+                        </div>
+                    </a>
+                    <% }) %>
+        </div>
+    </div>
+
+    <div class="calendar-controls">
+        <div class="toggle-group" id="viewToggle">
+            <button class="toggle-btn active" data-view="month">Month</button>
+            <button class="toggle-btn" data-view="agenda">Agenda</button>
+        </div>
+
+        <div style="display: flex; gap: var(--space-2);">
+            <select id="categoryFilter" style="width: auto; padding-right: var(--space-6);">
+                <option value="all">All Categories</option>
+                <option value="Outdoor">Outdoor</option>
+                <option value="Fitness">Fitness</option>
+                <option value="Dance">Dance</option>
+                <option value="Tech">Tech</option>
+                <option value="Social">Social</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Month View -->
+    <div id="monthView" class="month-grid">
+        <% const days=['Mon', 'Tue' , 'Wed' , 'Thu' , 'Fri' , 'Sat' , 'Sun' ]; days.forEach(day=> { %>
+            <div class="day-header">
                 <%= day %>
             </div>
             <% }) %>
 
-                <!-- Empty cells for days before January 1st (Wednesday) -->
-                <div></div>
-                <div></div>
-
-                <!-- Calendar Days -->
-                <% for (let day=1; day <=31; day++) { %>
-                    <% const dayActivities=activities.filter(a=> a.days && a.days.includes(day));
-                        const hasActivity = dayActivities.length > 0;
-                        const firstActivity = dayActivities[0];
+                <% // Simplified grid generation for Jan 2026 // Starts on Wed (Jan 1) const emptyCellsBefore=2; // Mon,
+                    Tue for(let i=0; i<emptyCellsBefore; i++) { %>
+                    <div class="day-cell muted"></div>
+                    <% } for(let day=1; day<=31; day++) { const dateStr=`2026-01-${day.toString().padStart(2, '0' )}`;
+                        const dayEvents=events.filter(e=> e.date === dateStr);
                         %>
-                        <div class="calendar-day <%= hasActivity ? 'has-activity' : '' %>" style="background: <%= hasActivity ? 'var(--naif-yellow)' : 'white' %>; 
-                        border: 2px solid <%= hasActivity ? 'var(--naif-orange)' : 'var(--naif-mint)' %>; 
-                        border-radius: 20px; 
-                        padding: 15px; 
-                        min-height: 120px; 
-                        position: relative;
-                        cursor: <%= hasActivity ? 'pointer' : 'default' %>;
-                        transition: var(--transition);">
-                            <div
-                                style="font-weight: 700; font-size: 1.2rem; color: var(--primary); margin-bottom: 10px;">
+                        <div class="day-cell">
+                            <div class="day-num">
                                 <%= day %>
                             </div>
-
-                            <% if (hasActivity) { %>
-                                <% dayActivities.forEach(activity=> { %>
-                                    <a href="/activities/<%= activity.slug %>"
-                                        style="text-decoration: none; color: inherit;">
-                                        <div
-                                            style="background: white; padding: 8px; border-radius: 12px; margin-bottom: 8px; font-size: 0.75rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                                            <% if (activity.image) { %>
-                                                <img src="<%= activity.image %>" alt="<%= activity.title %>"
-                                                    style="width: 100%; height: 50px; object-fit: cover; border-radius: 8px; margin-bottom: 5px;">
-                                                <% } %>
-                                                    <div style="font-weight: 600; color: var(--primary);">
-                                                        <%= activity.title %>
-                                                    </div>
-                                                    <div style="font-size: 0.7rem; color: var(--text-light);">
-                                                        <%= activity.time %>
-                                                    </div>
-                                                    <% if (rsvps[activity.slug] && rsvps[activity.slug].length> 0) { %>
-                                                        <div
-                                                            style="margin-top: 5px; font-size: 0.7rem; color: var(--naif-purple);">
-                                                            👥 <%= rsvps[activity.slug].length %> going
-                                                        </div>
-                                                        <% } %>
-                                        </div>
-                                    </a>
-                                    <% }) %>
-                                        <% } %>
+                            <% dayEvents.forEach(event=> { %>
+                                <a href="/event/<%= event.id %>" class="event-chip" title="<%= event.name %>"
+                                    data-category="<%= event.category %>">
+                                    <span>
+                                        <%= event.emoji %>
+                                    </span>
+                                    <span style="overflow: hidden; text-overflow: ellipsis;">
+                                        <%= event.name.split('·')[0].trim() %>
+                                    </span>
+                                </a>
+                                <% }) %>
                         </div>
                         <% } %>
     </div>
 
-    <!-- Quick Legend -->
-    <div style="background: var(--naif-mint); padding: 30px; border-radius: 30px; text-align: center;">
-        <h3 style="margin-bottom: 20px;">Activity Types</h3>
-        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
-            <div>🎲 Social</div>
-            <div>💪 Sport</div>
-            <div>🥾 Hiking</div>
-            <div>💃 Dance</div>
-            <div>🎨 Creative</div>
-            <div>🧠 Tech</div>
-            <div>⭐ Special Events</div>
-        </div>
-        <a href="/activities" class="btn" style="margin-top: 30px; display: inline-block;">View All Activities</a>
+    <!-- Agenda View (Hidden by default on desktop, shown on mobile) -->
+    <div id="agendaView" class="agenda-view" style="display: none;">
+        <% // Group events by date const groupedEvents={}; events.forEach(e=> {
+            const d = new Date(e.date).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+            if(!groupedEvents[d]) groupedEvents[d] = [];
+            groupedEvents[d].push(e);
+            });
+
+            Object.keys(groupedEvents).forEach(date => {
+            %>
+            <div class="agenda-day" data-categories="<%= groupedEvents[date].map(e => e.category).join(',') %>">
+                <div class="agenda-date">
+                    <%= date %>
+                </div>
+                <% groupedEvents[date].forEach(event=> { %>
+                    <a href="/event/<%= event.id %>" class="agenda-item" data-category="<%= event.category %>">
+                        <div class="agenda-time">
+                            <%= event.time %>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: var(--space-2);">
+                                <span style="font-size: 1.25rem;">
+                                    <%= event.emoji %>
+                                </span>
+                                <h4 style="font-size: 1rem;">
+                                    <%= event.name %>
+                                </h4>
+                                <span class="badge badge-primary" style="margin-left: auto;">
+                                    <%= event.category %>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                    <% }) %>
+            </div>
+            <% }) %>
     </div>
 </div>
 
-<style>
-    .calendar-day.has-activity:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-</style>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
-    gsap.from(".animate-title", { opacity: 0, y: -30, duration: 1 });
-    gsap.from(".animate-subtitle", { opacity: 0, y: -20, delay: 0.2, duration: 1 });
-    gsap.from(".calendar-day", { opacity: 0, scale: 0.8, stagger: 0.02, delay: 0.4, duration: 0.6 });
+    const viewToggle = document.getElementById('viewToggle');
+    const monthView = document.getElementById('monthView');
+    const agendaView = document.getElementById('agendaView');
+    const categoryFilter = document.getElementById('categoryFilter');
+
+    // Toggle logic
+    viewToggle.addEventListener('click', (e) => {
+        if (!e.target.classList.contains('toggle-btn')) return;
+
+        const view = e.target.dataset.view;
+        document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+
+        if (view === 'month') {
+            monthView.style.display = 'grid';
+            agendaView.style.display = 'none';
+        } else {
+            monthView.style.display = 'none';
+            agendaView.style.display = 'block';
+        }
+    });
+
+    // Filter logic
+    categoryFilter.addEventListener('change', () => {
+        const cat = categoryFilter.value;
+
+        // Filter chips in Month view
+        document.querySelectorAll('.event-chip').forEach(chip => {
+            if (cat === 'all' || chip.dataset.category === cat) {
+                chip.style.display = 'flex';
+            } else {
+                chip.style.display = 'none';
+            }
+        });
+
+        // Filter items in Agenda view
+        document.querySelectorAll('.agenda-item').forEach(item => {
+            if (cat === 'all' || item.dataset.category === cat) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        // Hide agenda days if no items visible
+        document.querySelectorAll('.agenda-day').forEach(day => {
+            const hasVisible = Array.from(day.querySelectorAll('.agenda-item')).some(i => i.style.display !== 'none');
+            day.style.display = hasVisible ? 'block' : 'none';
+        });
+    });
+
+    // Mobile specific: show items automatically
+    if (window.innerWidth <= 768) {
+        document.querySelector('[data-view="agenda"]').click();
+    }
 </script>

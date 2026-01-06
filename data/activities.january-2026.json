@@ -17,11 +17,26 @@
     },
     {
         "id": 2,
-        "title": "Techn Club",
-        "slug": "techn-club",
+        "title": "💻 TECH CLUB",
+        "subtitle": "Learning · Ideas · Innovation",
+        "slug": "tech-club",
         "time": "19:00",
-        "location": "Stranger Games",
-        "description": "Discuss the latest trends in technology and collaborate on projects.",
+        "location": "Shared after registration",
+        "description": "Tech Club is a casual and open space to explore technology, digital tools, AI and creative tech ideas together. It is not a formal class or lecture. Participants can learn, share ideas, ask questions or simply listen.",
+        "schedule_info": {
+            "duration": "1.5–2 hours"
+        },
+        "meeting_point_info": "Shared after registration.",
+        "who_for": [
+            "Beginners and curious minds",
+            "Students, creatives and entrepreneurs",
+            "No technical background required"
+        ],
+        "what_to_bring": [
+            "Laptop or tablet (recommended)",
+            "Notebook (optional)",
+            "Curiosity"
+        ],
         "days": [
             6,
             13,
@@ -29,7 +44,8 @@
             27
         ],
         "type": "Interest",
-        "image": "/images/activity_tech.png"
+        "image": "/images/activity_tech.png",
+        "is_free_tour": true
     },
     {
         "id": 3,
@@ -61,11 +77,27 @@
     },
     {
         "id": 5,
-        "title": "HIIT Training",
+        "title": "🔥 HIIT TRAINING",
+        "subtitle": "High Energy · Full Body",
         "slug": "hiit-training",
         "time": "19:00",
-        "location": "Parque de Calistenia Abenarabi",
-        "description": "Get your heart racing with a high-intensity interval training session.",
+        "location": "Shared after registration",
+        "description": "HIIT Training is a high-intensity workout focused on strength, cardio and functional movement. Sessions are adaptable to different fitness levels. The emphasis is on motivation, energy and group dynamics. No gym required.",
+        "schedule_info": {
+            "duration": "45–60 minutes"
+        },
+        "meeting_point_info": "Shared after registration.",
+        "who_for": [
+            "All fitness levels",
+            "Beginners welcome",
+            "People looking for an intense but flexible workout"
+        ],
+        "what_to_bring": [
+            "Sportswear",
+            "Trainers",
+            "Water",
+            "Towel (optional)"
+        ],
         "days": [
             8,
             15,
@@ -73,15 +105,31 @@
             29
         ],
         "type": "Sport",
-        "image": "/images/activity_fitness.png"
+        "image": "/images/activity_fitness.png",
+        "is_free_tour": true
     },
     {
         "id": 6,
-        "title": "Line Dance",
+        "title": "💃 LINE DANCE",
+        "subtitle": "Movement · Rhythm · Community",
         "slug": "line-dance",
         "time": "19:00",
-        "location": "Parque de Abenarabi",
-        "description": "Learn the steps and enjoy some energetic line dancing.",
+        "location": "Shared after registration",
+        "description": "Line Dance is a fun, social and inclusive activity where everyone dances together following simple choreographies. No partner is needed and no previous dance experience is required. The focus is on movement, coordination and enjoying the moment.",
+        "schedule_info": {
+            "duration": "60–90 minutes"
+        },
+        "meeting_point_info": "Shared after registration.",
+        "who_for": [
+            "All levels",
+            "People who enjoy music and movement",
+            "Anyone curious to try something new"
+        ],
+        "what_to_bring": [
+            "Comfortable clothes",
+            "Sneakers",
+            "Water"
+        ],
         "days": [
             9,
             16,
@@ -89,20 +137,41 @@
             30
         ],
         "type": "Dance",
-        "image": "/images/activity_dance.png"
+        "image": "/images/activity_dance.png",
+        "is_free_tour": true
     },
     {
         "id": 7,
-        "title": "Hike Cresta del Gallo",
-        "slug": "hike-cresta-del-gallo",
+        "title": "🥾 HIKING · CRESTA DEL GALLO",
+        "subtitle": "FreeTour · Outdoor Experience",
+        "slug": "hiking-cresta-del-gallo",
         "time": "10:00",
-        "location": "Cresta del Gallo",
-        "description": "A scenic hike to one of Murcia's most iconic lookout points.",
+        "location": "Exact point shared after registration",
+        "description": "This hiking experience is part of the Murcia Welcomes You monthly calendar. It is a social and accessible outdoor activity designed to explore one of the most iconic natural viewpoints around Murcia, meet new people, and enjoy the landscape at a relaxed pace. This is not a traditional guided tour. It follows a FreeTour model.",
+        "schedule_info": {
+            "duration": "3–4 hours",
+            "notes": "Participants should arrive 10 minutes early."
+        },
+        "meeting_point_info": "The exact meeting point will be shared after registration and on the day of the activity.",
+        "who_for": [
+            "Beginners to intermediate hikers",
+            "International students and locals",
+            "People who enjoy nature and social walks",
+            "No technical hiking experience required"
+        ],
+        "what_to_bring": [
+            "Comfortable hiking shoes",
+            "Water",
+            "Sun protection",
+            "Light snacks",
+            "Comfortable clothes"
+        ],
         "days": [
             10
         ],
         "type": "Hiking",
-        "image": "/images/activity_mountain.png"
+        "image": "/images/activity_mountain.png",
+        "is_free_tour": true
     },
     {
         "id": 8,
@@ -156,5 +225,36 @@
         ],
         "type": "Social",
         "image": "/images/activity_boardgames.png"
+    },
+    {
+        "id": 12,
+        "title": "🏐 BEACH VOLLEY",
+        "slug": "beach-volley",
+        "subtitle": "Sport · Sun · Social",
+        "time": "11:00",
+        "location": "Shared after registration",
+        "description": "Beach Volley sessions are relaxed, social and inclusive. The focus is on playing together, moving, laughing and enjoying the beach environment. There is no competition and teams rotate.",
+        "schedule_info": {
+            "duration": "1.5–2 hours"
+        },
+        "meeting_point_info": "Shared after registration.",
+        "who_for": [
+            "All levels",
+            "Beginners welcome",
+            "Anyone who enjoys beach sports"
+        ],
+        "what_to_bring": [
+            "Sports clothes",
+            "Water",
+            "Sunscreen",
+            "Towel"
+        ],
+        "days": [
+            11,
+            25
+        ],
+        "type": "Sport",
+        "image": "/images/activity_fitness.png",
+        "is_free_tour": true
     }
 ]

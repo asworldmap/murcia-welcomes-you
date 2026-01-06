@@ -1,0 +1,92 @@
+[
+    {
+        "id": "ev-1",
+        "activity_slug": "tech-club",
+        "date": "2026-01-06",
+        "time": "19:00"
+    },
+    {
+        "id": "ev-2",
+        "activity_slug": "tech-club",
+        "date": "2026-01-13",
+        "time": "19:00"
+    },
+    {
+        "id": "ev-3",
+        "activity_slug": "tech-club",
+        "date": "2026-01-20",
+        "time": "19:00"
+    },
+    {
+        "id": "ev-4",
+        "activity_slug": "tech-club",
+        "date": "2026-01-27",
+        "time": "19:00"
+    },
+    {
+        "id": "ev-5",
+        "activity_slug": "hiit-training",
+        "date": "2026-01-08",
+        "time": "19:00"
+    },
+    {
+        "id": "ev-6",
+        "activity_slug": "hiit-training",
+        "date": "2026-01-15",
+        "time": "19:00"
+    },
+    {
+        "id": "ev-7",
+        "activity_slug": "hiit-training",
+        "date": "2026-01-22",
+        "time": "19:00"
+    },
+    {
+        "id": "ev-8",
+        "activity_slug": "hiit-training",
+        "date": "2026-01-29",
+        "time": "19:00"
+    },
+    {
+        "id": "ev-9",
+        "activity_slug": "line-dance",
+        "date": "2026-01-09",
+        "time": "19:00"
+    },
+    {
+        "id": "ev-10",
+        "activity_slug": "line-dance",
+        "date": "2026-01-16",
+        "time": "19:00"
+    },
+    {
+        "id": "ev-11",
+        "activity_slug": "line-dance",
+        "date": "2026-01-23",
+        "time": "19:00"
+    },
+    {
+        "id": "ev-12",
+        "activity_slug": "line-dance",
+        "date": "2026-01-30",
+        "time": "19:00"
+    },
+    {
+        "id": "ev-13",
+        "activity_slug": "hiking-cresta-del-gallo",
+        "date": "2026-01-10",
+        "time": "10:00"
+    },
+    {
+        "id": "ev-14",
+        "activity_slug": "beach-volley",
+        "date": "2026-01-11",
+        "time": "11:00"
+    },
+    {
+        "id": "ev-15",
+        "activity_slug": "beach-volley",
+        "date": "2026-01-25",
+        "time": "11:00"
+    }
+]

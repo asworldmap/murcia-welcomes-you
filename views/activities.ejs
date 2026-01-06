@@ -1,122 +1,101 @@
-<div class="container" style="padding-top: 100px;">
-    <div style="text-align: center; margin-bottom: 60px;">
-        <h1 class="animate-title" style="font-size: 3.5rem; color: var(--primary);">All Activities</h1>
-        <p class="animate-subtitle" style="font-size: 1.2rem; max-width: 700px; margin: 20px auto;">
-            Explore everything happening in January. Filter by type or browse them all!
-        </p>
+<div class="container" style="padding-top: var(--space-6);">
+    <div style="text-align: center; margin-bottom: var(--space-8);">
+        <h1 style="font-size: 3.5rem; margin-bottom: var(--space-2);">All Activities</h1>
+        <p style="color: var(--text-soft); font-size: 1.1rem;">Explore the community catalog. Find your tribe.</p>
     </div>
 
-    <!-- Filter Buttons -->
-    <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 50px;">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="Social">🎲 Social</button>
-        <button class="filter-btn" data-filter="Sport">💪 Sport</button>
-        <button class="filter-btn" data-filter="Hiking">🥾 Hiking</button>
-        <button class="filter-btn" data-filter="Dance">💃 Dance</button>
-        <button class="filter-btn" data-filter="Creative">🎨 Creative</button>
-        <button class="filter-btn" data-filter="Interest">🧠 Tech</button>
-        <button class="filter-btn" data-filter="Special">⭐ Special</button>
+    <!-- Search and Filters -->
+    <div style="display: flex; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-6);">
+        <div style="flex: 1; min-width: 280px;">
+            <input type="text" id="searchInput" placeholder="Search activities..."
+                style="padding-left: var(--space-4);">
+        </div>
+        <select id="typeFilter" style="width: auto;">
+            <option value="all">All Types</option>
+            <option value="Outdoor">Outdoor</option>
+            <option value="Fitness">Fitness</option>
+            <option value="Dance">Dance</option>
+            <option value="Tech">Tech</option>
+            <option value="Social">Social</option>
+        </select>
     </div>
 
     <!-- Activities Grid -->
-    <div class="grid" id="activities-grid">
+    <div class="grid" id="activitiesGrid">
         <% activities.forEach(activity=> { %>
-            <div class="card activity-card" data-type="<%= activity.type %>"
-                style="position: relative; overflow: hidden;">
-                <% if (activity.image) { %>
-                    <img src="<%= activity.image %>" alt="<%= activity.title %>"
-                        style="width: 100%; height: 200px; object-fit: cover; border-radius: 20px 20px 0 0; margin: -30px -30px 20px -30px;">
-                    <% } %>
-                        <div
-                            style="position: absolute; top: 10px; right: 10px; background: var(--naif-yellow); padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 700;">
-                            <%= activity.type %>
-                        </div>
-                        <h3 class="card-title" style="color: var(--naif-orange); margin-top: 10px;">
-                            <%= activity.title %>
-                        </h3>
-                        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 15px;">
-                            🕒 <%= activity.time %> | 📍 <%= activity.location %>
-                        </p>
-                        <p style="margin-bottom: 20px;">
-                            <%= activity.description %>
-                        </p>
+            <div class="card activity-card" data-category="<%= activity.category %>"
+                data-name="<%= activity.name.toLowerCase() %>">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-3);">
+                    <span style="font-size: 3rem;">
+                        <%= activity.emoji %>
+                    </span>
+                    <% if (activity.recurrence==='weekly' ) { %>
+                        <span class="badge badge-success">Weekly Recurring</span>
+                        <% } %>
+                </div>
 
-                        <% if (activity.days && activity.days.length> 0) { %>
-                            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-                                <% activity.days.forEach(day=> { %>
-                                    <span
-                                        style="background: var(--naif-mint); padding: 5px 12px; border-radius: 15px; font-size: 0.85rem; font-weight: 600;">
-                                        Jan <%= day %>
-                                    </span>
-                                    <% }) %>
-                            </div>
+                <h3 style="font-size: 1.5rem; margin-bottom: var(--space-1);">
+                    <%= activity.name %>
+                </h3>
+                <p
+                    style="font-size: 0.9rem; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--space-3);">
+                    <%= activity.tagline %>
+                </p>
+
+                <p
+                    style="font-size: 0.95rem; color: var(--text-soft); margin-bottom: var(--space-4); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; line-clamp: 3;">
+                    <%= activity.description %>
+                </p>
+
+                <div
+                    style="background: var(--bg-soft); padding: var(--space-3); border-radius: var(--radius-sm); margin-bottom: var(--space-4);">
+                    <% if (activity.nextSession) { %>
+                        <p style="font-size: 0.85rem; font-weight: 600; color: var(--text-main);">
+                            Next Session: <span style="color: var(--primary);">
+                                <%= activity.nextSession.date %> @ <%= activity.nextSession.time %>
+                            </span>
+                        </p>
+                        <% } else { %>
+                            <p style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">
+                                Check calendar for next dates
+                            </p>
                             <% } %>
+                </div>
 
-                                <a href="/activities/<%= activity.slug %>" class="btn"
-                                    style="width: 100%; padding: 10px; font-size: 0.95rem;">Reserve Spot</a>
+                <div style="display: flex; gap: var(--space-2);">
+                    <a href="/activities/<%= activity.slug %>" class="btn" style="flex: 1;">View Activity</a>
+                    <% if (activity.nextSession) { %>
+                        <a href="/event/<%= activity.nextSession.id %>" class="btn btn-soft" style="flex: 1;">Quick
+                            Register</a>
+                        <% } %>
+                </div>
             </div>
             <% }) %>
     </div>
 </div>
 
-<style>
-    .filter-btn {
-        background: white;
-        border: 2px solid var(--naif-mint);
-        padding: 10px 20px;
-        border-radius: 25px;
-        font-size: 0.95rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: var(--transition);
-    }
-
-    .filter-btn:hover,
-    .filter-btn.active {
-        background: var(--naif-purple);
-        color: white;
-        border-color: var(--naif-purple);
-        transform: translateY(-2px);
-    }
-
-    .activity-card {
-        transition: var(--transition);
-    }
-
-    .activity-card.hidden {
-        display: none;
-    }
-</style>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
-    // GSAP Animations
-    gsap.from(".animate-title", { opacity: 0, y: -30, duration: 1, ease: "power2.out" });
-    gsap.from(".animate-subtitle", { opacity: 0, y: -20, delay: 0.2, duration: 1 });
-    gsap.from(".filter-btn", { opacity: 0, scale: 0.8, stagger: 0.05, delay: 0.4, duration: 0.6 });
-    gsap.from(".activity-card", { opacity: 0, y: 30, stagger: 0.1, delay: 0.6, duration: 0.8 });
+    const searchInput = document.getElementById('searchInput');
+    const typeFilter = document.getElementById('typeFilter');
+    const cards = document.querySelectorAll('.activity-card');
 
-    // Filter functionality
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const activityCards = document.querySelectorAll('.activity-card');
+    function filterCards() {
+        const query = searchInput.value.toLowerCase();
+        const type = typeFilter.value;
 
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const filter = btn.dataset.filter;
+        cards.forEach(card => {
+            const matchesSearch = card.dataset.name.includes(query);
+            const matchesType = type === 'all' || card.dataset.category === type;
 
-            // Update active button
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            // Filter cards
-            activityCards.forEach(card => {
-                if (filter === 'all' || card.dataset.type === filter) {
-                    card.classList.remove('hidden');
-                    gsap.from(card, { opacity: 0, scale: 0.9, duration: 0.4 });
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
+            if (matchesSearch && matchesType) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
         });
-    });
+    }
+
+    searchInput.addEventListener('input', filterCards);
+    typeFilter.addEventListener('change', filterCards);
 </script>

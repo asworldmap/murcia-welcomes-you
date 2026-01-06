@@ -65,6 +65,10 @@
                     <li><a href="/?lang=<%= lang %>" class="<%= title === t('nav_home') ? 'active' : '' %>">
                             <%= t('nav_home') %>
                         </a></li>
+                    <li><a href="/activities?lang=<%= lang %>"
+                            class="<%= title.includes('Activity') || title.includes('Activities') ? 'active' : '' %>">
+                            <%= t('nav_activities') %>
+                        </a></li>
                     <li><a href="/calendar?lang=<%= lang %>"
                             class="<%= title.includes(t('nav_calendar')) ? 'active' : '' %>">
                             <%= t('nav_calendar') %>

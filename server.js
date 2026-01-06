@@ -11,8 +11,9 @@ const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Data Loading
-const activitiesData = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'activities.january-2026.json'), 'utf8'));
+// Data Loading - New Structure
+const activities = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'activities.json'), 'utf8'));
+const events = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'events.json'), 'utf8'));
 const translations = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'translations.json'), 'utf8'));
 let rsvps = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'rsvps.json'), 'utf8'));
 
@@ -32,18 +33,23 @@ app.use(helmet({
     },
 }));
 
-// Cookie Parser for language preference (simple way)
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
-
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// View Engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+// Helpers
+const getDetailedEvents = () => {
+    return events.map(event => {
+        const activity = activities.find(a => a.slug === event.activity_slug);
+        return { ...activity, ...event };
+    }).sort((a, b) => new Date(a.date) - new Date(b.date));
+};
 
 // Translation helper middleware
 app.use((req, res, next) => {
@@ -57,32 +63,19 @@ app.use((req, res, next) => {
         };
         next();
     } catch (e) {
-        console.error("Translation middleware error:", e);
         res.locals.lang = 'en';
         res.locals.t = (key) => key;
         next();
     }
 });
 
-// Custom Middleware for layout
+// Layout helper
 app.use((req, res, next) => {
     res.renderWithLayout = (view, data = {}) => {
-        // Explicitly include t and lang from res.locals
-        const finalData = {
-            t: res.locals.t,
-            lang: res.locals.lang,
-            ...data
-        };
-
+        const finalData = { t: res.locals.t, lang: res.locals.lang, ...data };
         res.render(view, finalData, (err, html) => {
-            if (err) {
-                console.error(`Error rendering inner view ${view}:`, err);
-                return res.status(500).send(err.message);
-            }
-            res.render('layout', {
-                ...finalData,
-                body: html
-            });
+            if (err) return res.status(500).send(err.message);
+            res.render('layout', { ...finalData, body: html });
         });
     };
     next();
@@ -90,90 +83,100 @@ app.use((req, res, next) => {
 
 // Routes
 app.get('/', (req, res) => {
-    const featuredActivities = activitiesData.slice(0, 3);
+    const detailedEvents = getDetailedEvents();
+    const upcomingEvents = detailedEvents.filter(e => new Date(e.date) >= new Date()).slice(0, 3);
     res.renderWithLayout('index', {
         title: res.locals.t('nav_home'),
-        featuredActivities
+        featuredActivities: upcomingEvents
     });
 });
 
 app.get('/calendar', (req, res) => {
+    const detailedEvents = getDetailedEvents();
     res.renderWithLayout('calendar', {
         title: res.locals.t('nav_calendar'),
-        activities: activitiesData,
+        events: detailedEvents,
         rsvps
     });
 });
 
+app.get('/activities', (req, res) => {
+    // Show all activity templates with their next session
+    const detailedEvents = getDetailedEvents();
+    const activitiesWithNext = activities.map(activity => {
+        const nextSession = detailedEvents.find(e => e.activity_slug === activity.slug && new Date(e.date) >= new Date());
+        return { ...activity, nextSession };
+    });
+    res.renderWithLayout('activities', {
+        title: 'All Activities',
+        activities: activitiesWithNext
+    });
+});
+
+app.get('/activities/:slug', (req, res) => {
+    const activity = activities.find(a => a.slug === req.params.slug);
+    if (!activity) return res.status(404).send('Activity not found');
+
+    const detailedEvents = getDetailedEvents();
+    const sessions = detailedEvents.filter(e => e.activity_slug === activity.slug && new Date(e.date) >= new Date());
+
+    res.renderWithLayout('activity-detail', {
+        title: activity.name,
+        activity,
+        sessions,
+        rsvps
+    });
+});
+
+app.get('/event/:id', (req, res) => {
+    const event = events.find(e => e.id === req.params.id);
+    if (!event) return res.status(404).send('Event not found');
+
+    const activity = activities.find(a => a.slug === event.activity_slug);
+    res.renderWithLayout('event-detail', {
+        title: activity.name,
+        event: { ...activity, ...event },
+        participants: rsvps[event.id] || []
+    });
+});
+
 app.post('/rsvp', async (req, res) => {
-    const { name, email, activitySlug, avatar } = req.body;
+    const { name, email, eventId, avatar } = req.body;
 
-    if (!rsvps[activitySlug]) rsvps[activitySlug] = [];
-
-    // Check if member already RSVP'd (simple check by email)
-    const existingRSVP = rsvps[activitySlug].find(r => r.email === email);
+    if (!rsvps[eventId]) rsvps[eventId] = [];
+    const existingRSVP = rsvps[eventId].find(r => r.email === email);
 
     if (!existingRSVP) {
-        rsvps[activitySlug].push({ name, email, avatar: avatar || '😊' });
+        rsvps[eventId].push({ name, email, avatar: avatar || '😊' });
         fs.writeFileSync(path.join(__dirname, 'data', 'rsvps.json'), JSON.stringify(rsvps, null, 2));
 
-        // Send confirmation email
-        const activity = activitiesData.find(a => a.slug === activitySlug);
+        const event = events.find(e => e.id === eventId);
+        const activity = activities.find(a => a.slug === event.activity_slug);
 
         try {
             await resend.emails.send({
                 from: 'Murcia Welcomes You <noreply@murciawelcomesyou.com>',
                 to: email,
-                bcc: 'asensios@activemarmenor.eu', // Admin receives copy of all confirmations
+                bcc: 'asensios@activemarmenor.eu',
                 replyTo: 'asensios@activemarmenor.eu',
-                subject: `You're in! ${activity.title} confirmed`,
+                subject: `You're in! ${activity.name} confirmed`,
                 html: `
-                    <div style="font-family: 'Quicksand', sans-serif; max-width: 600px; margin: 0 auto; padding: 40px; background: #fef9f3; border-radius: 20px;">
-                        <h1 style="color: #9b5de5; font-size: 2rem;">Hey ${name}! 🍋</h1>
-                        <p style="font-size: 1.1rem; line-height: 1.8;">You're all set for <strong>${activity.title}</strong>!</p>
-                        
+                    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 40px; background: #fef9f3; border-radius: 20px;">
+                        <h1>Hey ${name}! 🍋</h1>
+                        <p>You're all set for <strong>${activity.name}</strong>!</p>
                         <div style="background: white; padding: 30px; border-radius: 15px; margin: 30px 0;">
-                            <p><strong>📅 When:</strong> ${activity.time}</p>
-                            <p><strong>📍 Where:</strong> ${activity.location}</p>
+                            <p><strong>📅 When:</strong> ${event.date} at ${event.time}</p>
                             <p><strong>🎭 Your vibe:</strong> ${avatar}</p>
                         </div>
-                        
-                        <p style="font-size: 1rem; line-height: 1.6;">
-                            We'll send you a reminder the day before. If plans change, just reply to this email.
-                        </p>
-                        
-                        <p style="margin-top: 30px; font-size: 0.95rem; color: #666;">
-                            See you there!<br>
-                            <strong>Asensio, Camilo & Ángel</strong><br>
-                            Murcia Welcomes You
-                        </p>
+                        <p>See you there!</p>
                     </div>
                 `
             });
         } catch (error) {
             console.error('Email send error:', error);
-            // Continue even if email fails - don't block the RSVP
         }
     }
-
-});
-
-app.get('/activities', (req, res) => {
-    res.renderWithLayout('activities', {
-        title: 'All Activities',
-        activities: activitiesData
-    });
-});
-
-app.get('/activities/:slug', (req, res) => {
-    const activity = activitiesData.find(a => a.slug === req.params.slug);
-    if (!activity) return res.status(404).send('Activity not found');
-
-    res.renderWithLayout('activity-detail', {
-        title: activity.title,
-        activity,
-        participants: rsvps[req.params.slug] || []
-    });
+    res.redirect(`/event/${eventId}?success=true`);
 });
 
 app.get('/about', (req, res) => {
@@ -191,7 +194,7 @@ app.get('/membership', (req, res) => {
 
 app.post('/create-checkout-session', async (req, res) => {
     const { planId } = req.body;
-    let price = 2900; // default 29.00
+    let price = 2900;
     let planName = 'January Reset Pass';
 
     if (planId === 'single') { price = 900; planName = 'Explorer Pass'; }
@@ -201,11 +204,7 @@ app.post('/create-checkout-session', async (req, res) => {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [{
-                price_data: {
-                    currency: 'eur',
-                    product_data: { name: planName },
-                    unit_amount: price,
-                },
+                price_data: { currency: 'eur', product_data: { name: planName }, unit_amount: price },
                 quantity: 1,
             }],
             mode: 'payment',
@@ -214,7 +213,6 @@ app.post('/create-checkout-session', async (req, res) => {
         });
         res.json({ id: session.id, url: session.url });
     } catch (error) {
-        console.error('Stripe Error:', error);
         res.status(500).json({ error: error.message });
     }
 });
@@ -229,7 +227,6 @@ app.get('/contact', (req, res) => {
 
 app.post('/contact', (req, res) => {
     const { name, email, message } = req.body;
-    console.log(`Contact Submission: ${name} (${email}) - ${message}`);
     res.renderWithLayout('thanks', { title: 'Thank You', name });
 });
 
@@ -241,7 +238,6 @@ app.get('/legal', (req, res) => {
     res.renderWithLayout('legal', { title: 'Legal Notice' });
 });
 
-// Start Server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

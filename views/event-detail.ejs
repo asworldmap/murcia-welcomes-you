@@ -1,0 +1,148 @@
+<div class="container" style="padding-top: var(--space-6);">
+    <a href="/activities/<%= event.slug %>"
+        style="display: inline-flex; align-items: center; gap: var(--space-2); font-weight: 700; color: var(--primary); margin-bottom: var(--space-5);">
+        ← Activity Info
+    </a>
+
+    <div class="product-hero">
+        <div class="product-visual"
+            style="background: var(--primary-light); aspect-ratio: 1; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 8rem;">
+            <%= event.emoji %>
+        </div>
+
+        <div class="product-info">
+            <div class="product-meta">
+                <span class="badge badge-primary">
+                    <%= event.category %>
+                </span>
+                <span class="badge badge-success">FreeTour</span>
+            </div>
+
+            <h1 style="font-size: 2.5rem;">
+                <%= event.name %>
+            </h1>
+            <div style="margin: var(--space-3) 0 var(--space-5);">
+                <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">
+                    <%= event.date %> at <%= event.time %>
+                </div>
+                <div style="color: var(--text-soft);">Shared with registered participants</div>
+            </div>
+
+            <!-- RSVP Status -->
+            <% if (participants.length> 0) { %>
+                <div style="margin-bottom: var(--space-5);">
+                    <div
+                        style="font-weight: 700; font-size: 0.9rem; margin-bottom: var(--space-2); color: var(--primary);">
+                        <%= participants.length %>
+                            <%= participants.length===1 ? 'person' : 'people' %> going
+                    </div>
+                    <div class="attendee-grid">
+                        <% participants.slice(0, 10).forEach(p=> { %>
+                            <div class="attendee-avatar" title="<%= p.name %>">
+                                <%= p.avatar %>
+                            </div>
+                            <% }) %>
+                                <% if (participants.length> 10) { %>
+                                    <div class="attendee-avatar" style="font-size: 0.9rem; font-weight: 700;">+<%=
+                                            participants.length - 10 %>
+                                    </div>
+                                    <% } %>
+                    </div>
+                </div>
+                <% } %>
+
+                    <div id="registration-card" class="card"
+                        style="border: 2px solid var(--primary); background: var(--primary-light); padding: var(--space-5);">
+                        <h3 style="margin-bottom: var(--space-3);">Register for this session</h3>
+                        <form action="/rsvp" method="POST">
+                            <input type="hidden" name="eventId" value="<%= event.id %>">
+
+                            <div style="display: grid; gap: var(--space-3);">
+                                <div>
+                                    <label style="font-size: 0.85rem; font-weight: 700; margin-bottom: 4px;">Your
+                                        Name</label>
+                                    <input type="text" name="name" required placeholder="Juana de Arco">
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.85rem; font-weight: 700; margin-bottom: 4px;">Email
+                                        Address</label>
+                                    <input type="email" name="email" required placeholder="juana@example.com">
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.85rem; font-weight: 700; margin-bottom: 4px;">Pick your
+                                        avatar</label>
+                                    <select name="avatar" style="font-size: 1.5rem;">
+                                        <option value="😊">😊 Happy</option>
+                                        <option value="😎">😎 Cool</option>
+                                        <option value="🤗">🤗 Friendly</option>
+                                        <option value="🥳">🥳 Party</option>
+                                        <option value="🍋">🍋 Murcian</option>
+                                        <option value="🍕">🍕 Foodie</option>
+                                        <option value="💃">💃 Ready</option>
+                                        <option value="🧠">🧠 Techie</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn"
+                                    style="width: 100%; margin-top: var(--space-3);">Confirm Registration</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <p
+                        style="text-align: center; font-size: 0.85rem; color: var(--text-soft); margin-top: var(--space-4);">
+                        Registration is free and helps us organize the group.
+                    </p>
+        </div>
+    </div>
+
+    <!-- Content Blocks -->
+    <div class="product-content">
+        <div class="content-main">
+            <section style="margin-bottom: var(--space-6);">
+                <h3 style="margin-bottom: var(--space-4);">Activity Details</h3>
+                <p style="color: var(--text-soft); line-height: 1.6; margin-bottom: var(--space-4);">
+                    <%= event.description %>
+                </p>
+
+                <div style="display: grid; gap: var(--space-4);">
+                    <div style="display: flex; gap: var(--space-3);">
+                        <div style="font-size: 1.5rem;">📍</div>
+                        <div>
+                            <h4 style="font-size: 1rem;">Meeting Point</h4>
+                            <p style="color: var(--text-soft); font-size: 0.95rem;">
+                                <%= event.meeting_point %>
+                            </p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: var(--space-3);">
+                        <div style="font-size: 1.5rem;">🎒</div>
+                        <div>
+                            <h4 style="font-size: 1rem;">What to bring</h4>
+                            <p style="color: var(--text-soft); font-size: 0.95rem;">
+                                <%= event.what_to_bring %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <aside class="content-sidebar">
+            <div class="card" style="background: white; border: 1px solid var(--border-soft);">
+                <h4 style="margin-bottom: var(--space-3);">Share with friends</h4>
+                <button onclick="copyLink()" class="btn btn-soft" style="width: 100%; font-size: 0.85rem;">Copy Event
+                    Link</button>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<script>
+    function copyLink() {
+        navigator.clipboard.writeText(window.location.href);
+        const btn = event.target;
+        const originalText = btn.innerText;
+        btn.innerText = "Copied!";
+        setTimeout(() => btn.innerText = originalText, 2000);
+    }
+</script>
