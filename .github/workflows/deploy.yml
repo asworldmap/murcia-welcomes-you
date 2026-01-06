@@ -23,7 +23,7 @@ jobs:
             sudo mkdir -p /var/www/murcia-welcomes-you
             sudo tee /etc/caddy/Caddyfile > /dev/null <<'CADDY'
             murciawelcomesyou.com, www.murciawelcomesyou.com {
-              reverse_proxy localhost:3000
+              reverse_proxy localhost:3002
             }
             dataspider.asensios.com {
               root * /var/www/dataspider
