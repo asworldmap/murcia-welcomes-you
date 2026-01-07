@@ -1,106 +1,171 @@
-<div style="background: white; padding: var(--space-8) 0; margin-top: -100px;">
-    <div class="container"
-        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6); align-items: center; text-align: left; padding-top: 100px;">
-        <div class="animate-hero-text">
-            <h1 style="font-size: 4rem; color: var(--text-main); margin-bottom: var(--space-3); line-height: 1.1;">
-                <%= t('hero_title') %>
-            </h1>
-            <p style="font-size: 1.25rem; color: var(--text-soft); margin-bottom: var(--space-5);">
-                <%= t('hero_subtitle') %>
-            </p>
-            <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
-                <a href="/calendar" class="btn">
-                    <%= t('btn_view_calendar') %>
-                </a>
-                <a href="/activities" class="btn btn-soft">
-                    Browse All Activities
-                </a>
-            </div>
-        </div>
-        <div class="animate-hero-img" style="position: relative;">
-            <img src="/images/realistic_plaza.png" alt="Plaza de las Flores, Murcia"
-                style="width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-hover);">
-            <div class="card"
-                style="position: absolute; bottom: -24px; right: -24px; max-width: 200px; padding: var(--space-3);">
-                <div style="display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-1);">
-                    <span style="font-size: 1.25rem;">🍋</span>
-                    <span style="font-weight: 800; font-size: 0.85rem;">Local Soul</span>
+<!-- Hero Section - Premium -->
+<section
+    style="background: linear-gradient(135deg, #faf8f5 0%, #f5f2ed 100%); padding: var(--space-16) 0 var(--space-12); margin-top: -90px; padding-top: calc(90px + var(--space-12));">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-10); align-items: center;">
+            <div style="animation: fadeInLeft 0.8s ease-out;">
+                <div
+                    style="display: inline-block; padding: var(--space-2) var(--space-4); background: rgba(212, 165, 116, 0.1); border-radius: var(--radius-full); margin-bottom: var(--space-4); border: 1px solid rgba(212, 165, 116, 0.3);">
+                    <span
+                        style="font-size: 0.875rem; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 0.1em;">January
+                        Reset 2026</span>
                 </div>
-                <p style="font-size: 0.75rem; color: var(--text-soft);">Global community vibes from the heart of Murcia.
+                <h1 style="margin-bottom: var(--space-5); line-height: 1.1;">
+                    <%= t('hero_title') %>
+                </h1>
+                <p
+                    style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: var(--space-6); line-height: 1.7;">
+                    <%= t('hero_subtitle') %>
                 </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container" style="padding: var(--space-8) var(--space-4);">
-    <div style="text-align: center; margin-bottom: var(--space-6);">
-        <h2 style="font-size: 2.5rem; margin-bottom: var(--space-2);">
-            <%= t('featured_activities') %>
-        </h2>
-        <p style="color: var(--text-soft);">Ready to jump in? Here's what's coming up next.</p>
-    </div>
-
-    <div class="grid">
-        <% featuredActivities.forEach(event=> { %>
-            <a href="/event/<%= event.id %>" class="card"
-                style="display: flex; flex-direction: column; gap: var(--space-3);">
-                <div style="display: flex; justify-content: space-between; align-items: start;">
-                    <span style="font-size: 3rem;">
-                        <%= event.emoji %>
-                    </span>
-                    <span class="badge badge-primary">
-                        <%= event.category %>
-                    </span>
+                <div style="display: flex; gap: var(--space-4); flex-wrap: wrap;">
+                    <a href="/calendar" class="btn btn-primary">
+                        <%= t('btn_view_calendar') %>
+                    </a>
+                    <a href="/activities" class="btn btn-soft">
+                        Browse All Activities
+                    </a>
                 </div>
-                <div>
-                    <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">
-                        <%= event.name %>
-                    </h3>
-                    <p
-                        style="font-size: 0.9rem; color: var(--primary); font-weight: 700; margin-bottom: var(--space-2);">
-                        <%= event.date %> @ <%= event.time %>
+            </div>
+            <div style="position: relative; animation: fadeInRight 0.8s ease-out;">
+                <img src="/images/hero.png" alt="Murcia Cathedral"
+                    style="width: 100%; border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); object-fit: cover; height: 500px;">
+                <div class="card"
+                    style="position: absolute; bottom: -30px; right: -30px; max-width: 240px; backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.95);">
+                    <div
+                        style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-2);">
+                        <span style="font-size: 2rem;">🍋</span>
+                        <span style="font-weight: 800; font-size: 1rem; color: var(--primary-dark);">Local Soul</span>
+                    </div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5;">
+                        Global community vibes from the heart of Murcia.
                     </p>
                 </div>
-                <p
-                    style="font-size: 0.9rem; color: var(--text-soft); flex: 1; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; line-clamp: 3; overflow: hidden;">
-                    <%= event.description %>
-                </p>
-                <div style="font-weight: 700; font-size: 0.85rem; color: var(--primary);">View Event →</div>
-            </a>
-            <% }) %>
-    </div>
-</div>
-
-<div style="background: var(--bg-soft); padding: var(--space-8) 0;">
-    <div class="container">
-        <h2 style="text-align: center; margin-bottom: var(--space-6);">Explore the Real Murcia</h2>
-        <div class="gallery"
-            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-4);">
-            <div style="overflow: hidden; border-radius: var(--radius-md);">
-                <img src="/images/murcia_cathedral.png" alt="Murcia Cathedral"
-                    style="width: 100%; transition: var(--transition);" class="gallery-img">
-            </div>
-            <div style="overflow: hidden; border-radius: var(--radius-md);">
-                <img src="/images/murcia_river.png" alt="Segura River"
-                    style="width: 100%; transition: var(--transition);" class="gallery-img">
-            </div>
-            <div style="overflow: hidden; border-radius: var(--radius-md);">
-                <img src="/images/murcia_huerta.png" alt="Traditional Murcia Huerta"
-                    style="width: 100%; transition: var(--transition);" class="gallery-img">
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<!-- Featured Activities -->
+<section style="padding: var(--space-12) 0;">
+    <div class="container">
+        <div class="text-center mb-8">
+            <h2 style="margin-bottom: var(--space-3);">
+                <%= t('featured_activities') %>
+            </h2>
+            <p style="font-size: 1.125rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+                Ready to jump in? Here's what's coming up next.
+            </p>
+        </div>
+
+        <div class="grid">
+            <% featuredActivities.forEach(event=> { %>
+                <a href="/event/<%= event.id %>" class="card"
+                    style="display: flex; flex-direction: column; gap: var(--space-4);">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <span style="font-size: 3.5rem; line-height: 1;">
+                            <%= event.emoji %>
+                        </span>
+                        <span class="badge badge-primary">
+                            <%= event.category %>
+                        </span>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: var(--space-2); color: var(--primary-dark);">
+                            <%= event.name %>
+                        </h3>
+                        <p
+                            style="font-size: 0.95rem; color: var(--accent-gold); font-weight: 700; margin-bottom: var(--space-3);">
+                            <%= event.date %> @ <%= event.time %>
+                        </p>
+                    </div>
+                    <p
+                        style="font-size: 0.95rem; color: var(--text-secondary); flex: 1; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                        <%= event.description %>
+                    </p>
+                    <div
+                        style="display: flex; align-items: center; gap: var(--space-2); font-weight: 700; font-size: 0.95rem; color: var(--primary-blue);">
+                        View Details
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </a>
+                <% }) %>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Section -->
+<section style="background: var(--sand); padding: var(--space-12) 0;">
+    <div class="container">
+        <div class="text-center mb-8">
+            <h2 style="margin-bottom: var(--space-3);">Explore the Real Murcia</h2>
+            <p style="font-size: 1.125rem; color: var(--text-secondary);">
+                Discover the authentic landscapes and hidden gems of the region
+            </p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-5);">
+            <div
+                style="overflow: hidden; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); position: relative; aspect-ratio: 4/3;">
+                <img src="/images/gallery_1.png" alt="Teatro Romano Cartagena"
+                    style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;"
+                    onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+            <div
+                style="overflow: hidden; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); position: relative; aspect-ratio: 4/3;">
+                <img src="/images/gallery_2.png" alt="Lemon Fields"
+                    style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;"
+                    onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+            <div
+                style="overflow: hidden; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); position: relative; aspect-ratio: 4/3;">
+                <img src="/images/gallery_3.png" alt="Costa Cálida"
+                    style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;"
+                    onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            </div>
+        </div>
+    </div>
+</section>
 
 <style>
-    .gallery-img:hover {
-        transform: scale(1.05);
+    @keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @media (max-width: 900px) {
+        section:first-child>div>div {
+            grid-template-columns: 1fr !important;
+            gap: var(--space-8) !important;
+        }
+
+        section:first-child img {
+            height: 400px !important;
+        }
+
+        section:first-child .card {
+            position: static !important;
+            margin-top: var(--space-4);
+        }
     }
 </style>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script>
-    gsap.from(".animate-hero-text", { opacity: 0, x: -50, duration: 1, ease: "power2.out" });
-    gsap.from(".animate-hero-img", { opacity: 0, scale: 0.95, delay: 0.3, duration: 1.2 });
-</script>
